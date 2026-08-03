@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FotoPro AI - Ampliador e Vetorizador de Imagens</title>
+    <title>FotoPro AI - Ampliador, Vetorizador e Otimizador de Imagens</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
@@ -17,19 +17,11 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        /* Trava de segurança para impedir que anúncios invadam a tela toda */
-        .ad-container-safe {
-            max-width: 100% !important;
-            max-height: 280px !important;
-            overflow: hidden !important;
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-            margin: 0 auto !important;
-        }
-        .ad-container-safe iframe, 
-        .ad-container-safe div {
-            max-width: 100% !important;
+        .ad-box {
+            min-height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
@@ -68,7 +60,7 @@
         </div>
 
         <!-- Drag & Drop Zone / File Input -->
-        <div id="dropZone" class="glass-card rounded-2xl p-8 text-center border-2 border-dashed border-slate-600 hover:border-indigo-500 transition-all cursor-pointer shadow-xl mb-8 group relative overflow-hidden">
+        <div id="dropZone" class="glass-card rounded-2xl p-8 text-center border-2 border-dashed border-slate-600 hover:border-indigo-500 transition-all cursor-pointer shadow-xl mb-6 group relative overflow-hidden">
             <input type="file" id="fileInput" accept="image/*" class="hidden">
             
             <div id="uploadPrompt" class="space-y-4 py-6">
@@ -84,6 +76,12 @@
                     <span class="flex items-center"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 mr-1"></i> Saída PNG 3500px / 300 DPI</span>
                 </div>
             </div>
+        </div>
+
+        <!-- 1. Native Banner Ad: Abaixo da Caixa de Upload -->
+        <div class="glass-card rounded-2xl p-4 text-center max-w-lg mx-auto mb-8">
+            <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Publicidade</p>
+            <div id="ad-slot-upload" class="ad-box"></div>
         </div>
 
         <!-- Result Section (Hidden until image loaded) -->
@@ -137,34 +135,37 @@
 
             <!-- Action Buttons Block -->
             <div class="glass-card rounded-2xl p-6 text-center space-y-4 max-w-lg mx-auto">
+                <!-- 2. Native Banner Ad: Acima do Botão de Download -->
+                <div class="pb-2 border-b border-slate-800/60">
+                    <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Publicidade</p>
+                    <div id="ad-slot-download" class="ad-box"></div>
+                </div>
+
                 <!-- Download Button -->
-                <button id="downloadBtn" onclick="downloadImage()" class="w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition duration-300 flex items-center justify-center space-x-3 text-lg z-10 relative">
+                <button id="downloadBtn" onclick="downloadImage()" class="w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition duration-300 flex items-center justify-center space-x-3 text-lg">
                     <i data-lucide="download" class="w-6 h-6"></i>
                     <span>Baixar Imagem</span>
                 </button>
-            </div>
-
-            <!-- Controlled Native Banner Ad below Download Button -->
-            <div class="glass-card rounded-2xl p-4 text-center max-w-lg mx-auto mt-6 overflow-hidden">
-                <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Publicidade</p>
-                <div class="ad-container-safe">
-                    <div id="container-579dac958022192871b5f01bd22ef085"></div>
-                    <script async="async" data-cfasync="false" src="https://pl30671883.effectivecpmnetwork.com/579dac958022192871b5f01bd22ef085/invoke.js"></script>
-                </div>
             </div>
         </div>
     </main>
 
     <!-- Processing Modal -->
-    <div id="processingModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
-        <div class="glass-card bg-slate-900 rounded-2xl max-w-md w-full p-6 text-center border border-slate-700 shadow-2xl space-y-6">
-            <div class="space-y-3 py-4">
+    <div id="processingModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
+        <div class="glass-card bg-slate-900 rounded-2xl max-w-lg w-full p-6 text-center border border-slate-700 shadow-2xl space-y-6">
+            <div class="space-y-3">
                 <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent"></div>
-                <h3 class="text-lg font-bold text-white">Processando Imagem</h3>
+                <h3 class="text-lg font-bold text-white">Processando Imagem em Alta Definição</h3>
                 <p id="statusText" class="text-xs text-slate-300">Aplicando proporção máxima (3500px), curva de pixels e 300 DPI...</p>
-                <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden mt-3">
+                <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
                     <div id="progressBar" class="bg-indigo-500 h-full w-0 transition-all duration-300"></div>
                 </div>
+            </div>
+
+            <!-- 3. Native Banner Ad: Abaixo do Modal de Carregamento -->
+            <div class="pt-2 border-t border-slate-800">
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Publicidade</p>
+                <div id="ad-slot-modal" class="ad-box"></div>
             </div>
         </div>
     </div>
@@ -183,6 +184,30 @@
     <!-- JavaScript Application Logic -->
     <script>
         lucide.createIcons();
+
+        // Native Banner Injection Helper
+        function renderAdsterraBanner(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            const script1 = document.createElement('script');
+            script1.async = true;
+            script1.dataset.cfasync = "false";
+            script1.src = "https://pl30671883.effectivecpmnetwork.com/579dac958022192871b5f01bd22ef085/invoke.js";
+
+            const innerDiv = document.createElement('div');
+            innerDiv.id = "container-579dac958022192871b5f01bd22ef085";
+
+            container.appendChild(script1);
+            container.appendChild(innerDiv);
+        }
+
+        // Initialize Native Banner below Upload Zone on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderAdsterraBanner('ad-slot-upload');
+        });
 
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
@@ -245,6 +270,9 @@
         function processImage() {
             if (!loadedImage) return;
 
+            // Load Banner inside Modal
+            renderAdsterraBanner('ad-slot-modal');
+
             processingModal.classList.remove('hidden');
             progressBar.style.width = '20%';
             statusText.innerText = "Calculando proporção para o limite de 3500px...";
@@ -293,6 +321,9 @@
                         outputCanvas.classList.remove('hidden');
                         canvasPlaceholder.classList.add('hidden');
                         
+                        // Load Banner above Download Button
+                        renderAdsterraBanner('ad-slot-download');
+
                         resultSection.scrollIntoView({ behavior: 'smooth' });
                         showToast("Imagem processada e vetorizada com sucesso!");
                     }, 400);
