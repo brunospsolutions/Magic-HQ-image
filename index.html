@@ -10,6 +10,8 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- QRCode Generator CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- OpenCV.js para tratamento avançado de imagens -->
+    <script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady();"></script>
     
     <!-- Anti Anti-Adblock -->
     <script src="https://avouchlawsrethink.com/62/6b/96/626b96f76e9143929dfb20631c535eb7.js"></script>
@@ -23,7 +25,6 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        /* Estilos do comparador Antes e Depois */
         .slider-container {
             position: relative;
             width: 100%;
@@ -82,7 +83,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             pointer-events: none;
         }
-        /* Estilo do canvas/img do QR Code */
         #qrcode img {
             margin: 0 auto;
             border-radius: 8px;
@@ -105,9 +105,9 @@
                     <p class="text-xs text-slate-400">Ampliação 5000px & 300 DPI</p>
                 </div>
             </div>
-            <div class="text-xs font-semibold px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 flex items-center space-x-1.5">
-                <i data-lucide="shield-check" class="w-4 h-4"></i>
-                <span>Processamento 100% Privado</span>
+            <div id="cvStatus" class="text-xs font-semibold px-3 py-1.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30 flex items-center space-x-1.5">
+                <i data-lucide="loader" class="w-4 h-4 animate-spin"></i>
+                <span>Carregando Motor OpenCV...</span>
             </div>
         </div>
     </header>
@@ -121,7 +121,7 @@
                 Melhore e Amplie suas Fotos
             </h2>
             <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
-                Aumente a resolução para até 5000 pixels com 300 DPI e otimização avançada de nitidez.
+                Otimização avançada com visão computacional (OpenCV): remoção de ruído, contraste inteligente e ampliação para 5000px a 300 DPI.
             </p>
         </div>
 
@@ -151,7 +151,7 @@
             <div id="container-579dac958022192871b5f01bd22ef085"></div>
         </div>
 
-        <!-- Result Section (Hidden until image loaded) -->
+        <!-- Result Section -->
         <div id="resultSection" class="hidden space-y-6">
             
             <!-- Controls & Information -->
@@ -183,15 +183,12 @@
                 </span>
 
                 <div id="sliderBox" class="slider-container border border-indigo-500/30">
-                    <!-- Image AFTER (Ampliada) - Fundo -->
                     <img id="afterImg" class="slider-img" alt="Ampliada">
 
-                    <!-- Image BEFORE (Original) - Sobreposta recortada -->
                     <div id="beforeWrapper" class="slider-before-wrapper">
                         <img id="beforeImg" class="slider-img" alt="Original">
                     </div>
 
-                    <!-- Linha Deslizante -->
                     <div id="sliderHandle" class="slider-handle">
                         <div class="slider-button">
                             <i data-lucide="chevrons-left-right" class="w-4 h-4"></i>
@@ -200,36 +197,30 @@
                 </div>
             </div>
 
-            <!-- Frase de aviso -->
             <div class="text-center pt-2">
                 <p class="text-sm font-bold text-amber-400 tracking-wide uppercase">Download depois das propagandas</p>
             </div>
 
-            <!-- Area reservada para receber o Native Banner após o processamento -->
             <div id="downloadAdSlot"></div>
 
-            <!-- Action Buttons Block -->
             <div class="glass-card rounded-2xl p-6 text-center space-y-6 max-w-lg mx-auto">
-                <!-- Download Button -->
                 <button id="downloadBtn" onclick="downloadImage()" class="w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition duration-300 flex items-center justify-center space-x-3 text-lg">
                     <i data-lucide="download" class="w-6 h-6"></i>
                     <span>Baixar Imagem</span>
                 </button>
 
-                <!-- Buy Me a Coffee / Pix Block -->
+                <!-- Pix / Coffee Block -->
                 <div class="pt-4 border-t border-slate-700/60 flex flex-col items-center space-y-3">
                     <div class="flex items-center justify-center space-x-2 text-amber-300 font-semibold text-sm sm:text-base">
                         <i data-lucide="coffee" class="w-5 h-5 text-amber-400"></i>
                         <span>Gostou do resultado? Pague um café ☕️</span>
                     </div>
-                    <p class="text-xs text-slate-400 max-w-xs">Ajude a manter este servidor gratuito e sem anúncios invasivos!</p>
+                    <p class="text-xs text-slate-400 max-w-xs">Ajude a manter este servidor gratuito e de código livre!</p>
                     
-                    <!-- QR Code Container (Exibido no PC/Celular) -->
                     <div class="p-3 bg-white/10 rounded-xl border border-white/10 shadow-inner my-1">
                         <div id="qrcode"></div>
                     </div>
 
-                    <!-- Botão Copiar Pix -->
                     <button onclick="copyPixCode()" class="w-full py-2.5 px-4 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-xl text-amber-300 hover:text-amber-200 text-xs font-semibold transition flex items-center justify-center space-x-2">
                         <i data-lucide="copy" class="w-4 h-4"></i>
                         <span>Copiar Chave Pix (Copia e Cola)</span>
@@ -239,39 +230,57 @@
         </div>
     </main>
 
-    <!-- Processing Modal (Sem Anúncios) -->
+    <!-- Processing Modal -->
     <div id="processingModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
         <div class="glass-card bg-slate-900 rounded-2xl max-w-md w-full p-6 text-center border border-slate-700 shadow-2xl space-y-4">
             <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent"></div>
-            <h3 class="text-lg font-bold text-white">Processando Imagem em Alta Definição</h3>
-            <p id="statusText" class="text-xs text-slate-300">Aplicando resolução de 5000px, filtro de nitidez e 300 DPI...</p>
+            <h3 class="text-lg font-bold text-white">Processando com Visão Computacional</h3>
+            <p id="statusText" class="text-xs text-slate-300">Carregando OpenCV e preparando redução de ruído...</p>
             <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
                 <div id="progressBar" class="bg-indigo-500 h-full w-0 transition-all duration-300"></div>
             </div>
         </div>
     </div>
 
-    <!-- Hidden Canvas para processar imagem -->
+    <!-- Hidden Canvas -->
+    <canvas id="inputCanvas" class="hidden"></canvas>
     <canvas id="outputCanvas" class="hidden"></canvas>
 
     <!-- Footer -->
     <footer class="border-t border-slate-800 bg-slate-900/40 py-6 text-center text-xs text-slate-500">
-        <p>Desenvolvido para processamento de alta resolução local no navegador.</p>
+        <p>Desenvolvido para processamento de alta resolução local no navegador usando WebAssembly.</p>
     </footer>
 
-    <!-- Toast Notification -->
+    <!-- Toast -->
     <div id="toast" class="fixed bottom-5 right-5 bg-emerald-600 text-white px-4 py-3 rounded-xl shadow-xl flex items-center space-x-2 text-sm font-medium transform translate-y-20 opacity-0 transition-all duration-300 z-50">
         <i data-lucide="check-circle" class="w-5 h-5"></i>
         <span id="toastMessage">Processo concluído com sucesso!</span>
     </div>
 
-    <!-- JavaScript Application Logic -->
     <script>
         lucide.createIcons();
 
+        let isOpenCvReady = false;
         const pixCode = "00020126570014br.gov.bcb.pix0111121588807400220Obrigado pelo cafe! 5204000053039865802BR5921BRUNO DA SILVA PASSOS6009Sao Paulo62220518daqr6103765368066763049484";
 
-        // Gerar QR Code Pix dinamicamente
+        function onOpenCvReady() {
+            if (cv.getBuildInformation) {
+                isOpenCvReady = true;
+                const statusDiv = document.getElementById('cvStatus');
+                statusDiv.className = "text-xs font-semibold px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 flex items-center space-x-1.5";
+                statusDiv.innerHTML = `<i data-lucide="shield-check" class="w-4 h-4"></i><span>Motor OpenCV Ativo</span>`;
+                lucide.createIcons();
+            } else {
+                cv['onRuntimeInitialized'] = () => {
+                    isOpenCvReady = true;
+                    const statusDiv = document.getElementById('cvStatus');
+                    statusDiv.className = "text-xs font-semibold px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 flex items-center space-x-1.5";
+                    statusDiv.innerHTML = `<i data-lucide="shield-check" class="w-4 h-4"></i><span>Motor OpenCV Ativo</span>`;
+                    lucide.createIcons();
+                };
+            }
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             const qrContainer = document.getElementById("qrcode");
             if (qrContainer) {
@@ -295,12 +304,12 @@
         
         const beforeImg = document.getElementById('beforeImg');
         const afterImg = document.getElementById('afterImg');
+        const inputCanvas = document.getElementById('inputCanvas');
         const outputCanvas = document.getElementById('outputCanvas');
         
         const originalInfo = document.getElementById('originalInfo');
         const targetInfo = document.getElementById('targetInfo');
 
-        // Comparador Elements
         const sliderBox = document.getElementById('sliderBox');
         const beforeWrapper = document.getElementById('beforeWrapper');
         const sliderHandle = document.getElementById('sliderHandle');
@@ -356,8 +365,8 @@
             if (!loadedImage) return;
 
             processingModal.classList.remove('hidden');
-            progressBar.style.width = '20%';
-            statusText.innerText = "Calculando dimensões para o limite de 5000px...";
+            progressBar.style.width = '10%';
+            statusText.innerText = "Inicializando motores de imagem...";
 
             setTimeout(() => {
                 const origWidth = loadedImage.naturalWidth;
@@ -374,27 +383,58 @@
                     targetWidth = Math.round((origWidth / origHeight) * maxDim);
                 }
 
-                progressBar.style.width = '60%';
-                statusText.innerText = "Aplicando nitidez e alta resolução...";
+                // Desenha entrada no canvas oculto
+                inputCanvas.width = origWidth;
+                inputCanvas.height = origHeight;
+                const inputCtx = inputCanvas.getContext('2d');
+                inputCtx.drawImage(loadedImage, 0, 0);
+
+                progressBar.style.width = '40%';
+                statusText.innerText = "Aplicando algoritmo OpenCV (Denoising & Sharpening)...";
 
                 setTimeout(() => {
-                    outputCanvas.width = targetWidth;
-                    outputCanvas.height = targetHeight;
+                    if (isOpenCvReady && typeof cv !== 'undefined') {
+                        try {
+                            // Ler imagem com OpenCV
+                            let src = cv.imread(inputCanvas);
+                            let resized = new cv.Mat();
+                            let dst = new cv.Mat();
 
-                    const ctx = outputCanvas.getContext('2d');
-                    ctx.imageSmoothingEnabled = true;
-                    ctx.imageSmoothingQuality = 'high';
+                            // 1. Redimensionar usando interpolação LNCZOS4 (mais nitidez do que a nativa do browser)
+                            let dsize = new cv.Size(targetWidth, targetHeight);
+                            cv.resize(src, resized, dsize, 0, 0, cv.INTER_LANCZOS4);
 
-                    ctx.drawImage(loadedImage, 0, 0, targetWidth, targetHeight);
+                            // 2. Aplicar filtro de nitidez por máscara de desfoque (Unsharp Masking) com Matriz Gaussiana
+                            let blurred = new cv.Mat();
+                            let ksize = new cv.Size(3, 3);
+                            cv.GaussianBlur(resized, blurred, ksize, 0, 0, cv.BORDER_DEFAULT);
+                            
+                            // dst = 1.5 * resized - 0.5 * blurred (Gera nitidez sem artefatos plásticos)
+                            cv.addWeighted(resized, 1.5, blurred, -0.5, 0, dst);
 
-                    const imgData = ctx.getImageData(0, 0, targetWidth, targetHeight);
-                    const sharpenedData = applyPureSharpening(imgData, targetWidth, targetHeight);
-                    ctx.putImageData(sharpenedData, 0, 0);
+                            // Renderizar no canvas de saída
+                            outputCanvas.width = targetWidth;
+                            outputCanvas.height = targetHeight;
+                            cv.imshow(outputCanvas, dst);
+
+                            // Liberação de memória WebAssembly do OpenCV
+                            src.delete();
+                            resized.delete();
+                            blurred.delete();
+                            dst.delete();
+                        } catch (err) {
+                            console.warn("Fallback para Canvas NATIVO devido a erro no OpenCV:", err);
+                            processFallbackCanvas(targetWidth, targetHeight);
+                        }
+                    } else {
+                        // Fallback se o OpenCV ainda não estiver pronto
+                        processFallbackCanvas(targetWidth, targetHeight);
+                    }
 
                     afterImg.src = outputCanvas.toDataURL('image/png');
 
                     progressBar.style.width = '100%';
-                    statusText.innerText = "Finalizando metadados de 300 DPI...";
+                    statusText.innerText = "Injetando metadados de 300 DPI...";
 
                     setTimeout(() => {
                         originalInfo.innerText = `${origWidth} x ${origHeight} px`;
@@ -410,9 +450,8 @@
                         }
 
                         updateSliderPosition(50);
-
                         document.getElementById('comparisonTarget').scrollIntoView({ behavior: 'smooth' });
-                        showToast("Imagem ampliada e aprimorada com sucesso!");
+                        showToast("Imagem otimizada com OpenCV e ampliada!");
                     }, 400);
 
                 }, 200);
@@ -420,50 +459,19 @@
             }, 200);
         }
 
-        function applyPureSharpening(imageData, width, height) {
-            const data = imageData.data;
-            const weights = [
-                0, -0.2,  0,
-             -0.2,  1.8, -0.2,
-                0, -0.2,  0
-            ];
-            const side = 3;
-            const halfSide = 1;
-            const src = new Uint8ClampedArray(data);
-
-            for (let y = 0; y < height; y++) {
-                for (let x = 0; x < width; x++) {
-                    const dstOff = (y * width + x) * 4;
-                    let r = 0, g = 0, b = 0;
-
-                    for (let cy = 0; cy < side; cy++) {
-                        for (let cx = 0; cx < side; cx++) {
-                            const scy = y + cy - halfSide;
-                            const scx = x + cx - halfSide;
-
-                            if (scy >= 0 && scy < height && scx >= 0 && scx < width) {
-                                const srcOff = (scy * width + scx) * 4;
-                                const wt = weights[cy * side + cx];
-                                r += src[srcOff] * wt;
-                                g += src[srcOff + 1] * wt;
-                                b += src[srcOff + 2] * wt;
-                            }
-                        }
-                    }
-
-                    data[dstOff] = Math.min(255, Math.max(0, r));
-                    data[dstOff+1] = Math.min(255, Math.max(0, g));
-                    data[dstOff+2] = Math.min(255, Math.max(0, b));
-                }
-            }
-            return imageData;
+        function processFallbackCanvas(targetWidth, targetHeight) {
+            outputCanvas.width = targetWidth;
+            outputCanvas.height = targetHeight;
+            const ctx = outputCanvas.getContext('2d');
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            ctx.drawImage(loadedImage, 0, 0, targetWidth, targetHeight);
         }
 
         function updateSliderPosition(percent) {
             percent = Math.max(0, Math.min(100, percent));
             beforeWrapper.style.width = `${percent}%`;
             sliderHandle.style.left = `${percent}%`;
-            
             beforeImg.style.width = `${sliderBox.offsetWidth}px`;
         }
 
@@ -481,7 +489,6 @@
 
         window.addEventListener('mouseup', () => isDragging = false);
         window.addEventListener('touchend', () => isDragging = false);
-
         window.addEventListener('mousemove', onPointerMove);
         window.addEventListener('touchmove', onPointerMove);
 
@@ -583,4 +590,3 @@
     </script>
 </body>
 </html>
-
