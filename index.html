@@ -12,9 +12,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <!-- OpenCV.js para tratamento avançado de imagens -->
     <script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady();"></script>
-    
-    <!-- Anti Anti-Adblock -->
-    <script src="https://avouchlawsrethink.com/62/6b/96/626b96f76e9143929dfb20631c535eb7.js"></script>
 
     <style>
         .gradient-bg {
@@ -130,13 +127,20 @@
     <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
 
         <!-- Intro Banner -->
-        <div class="text-center mb-8">
+        <div class="text-center mb-6">
             <h2 class="text-3xl sm:text-4xl font-extrabold mb-3 text-white tracking-tight">
                 Faça a Mágica Acontecer
             </h2>
             <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
                 Faça o Upload para ter uma imagem melhorada com até 5000 px e 300dpi, ideal para visualização e impressão
             </p>
+        </div>
+
+        <!-- Anúncio 1: Topo (Acima do Upload) -->
+        <div class="p-4 border border-slate-800 rounded-xl bg-slate-900/40 max-w-lg mx-auto mb-6 text-center min-h-[100px]">
+            <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Publicidade</p>
+            <script async="async" data-cfasync="false" src="https://avouchlawsrethink.com/579dac958022192871b5f01bd22ef085/invoke.js"></script>
+            <div id="container-579dac958022192871b5f01bd22ef085"></div>
         </div>
 
         <!-- Drag & Drop Zone / File Input -->
@@ -179,11 +183,9 @@
                     </div>
                 </div>
 
-                <!-- Native Banner Ad -->
-                <div id="preProcessAdContainer" class="p-4 border border-slate-800 rounded-xl bg-slate-900/40 max-w-lg mx-auto min-h-[100px]">
+                <!-- Anúncio 2: Pré-processamento (Acima do Botão de Iniciar) -->
+                <div id="preProcessAdSlot" class="p-4 border border-slate-800 rounded-xl bg-slate-900/40 max-w-lg mx-auto min-h-[100px]">
                     <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Publicidade</p>
-                    <script async="async" data-cfasync="false" src="https://avouchlawsrethink.com/579dac958022192871b5f01bd22ef085/invoke.js"></script>
-                    <div id="container-579dac958022192871b5f01bd22ef085"></div>
                 </div>
 
                 <!-- Botão de Iniciar Processamento -->
@@ -244,7 +246,10 @@
                 <p class="text-sm font-bold text-amber-400 tracking-wide uppercase">Download depois das propagandas</p>
             </div>
 
-            <div id="downloadAdSlot"></div>
+            <!-- Anúncio 4: Resultado (Acima do Download) -->
+            <div id="downloadAdSlot" class="p-4 border border-slate-800 rounded-xl bg-slate-900/40 max-w-lg mx-auto min-h-[100px] text-center">
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Publicidade</p>
+            </div>
 
             <div class="glass-card rounded-2xl p-6 text-center space-y-6 max-w-lg mx-auto">
                 <button id="downloadBtn" onclick="downloadImage()" class="w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition duration-300 flex items-center justify-center space-x-3 text-lg">
@@ -273,14 +278,20 @@
         </div>
     </main>
 
-    <!-- Processing Modal -->
-    <div id="processingModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
+    <!-- Processing Modal (com 20s de espera e Anúncio 3 integrado) -->
+    <div id="processingModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
         <div class="glass-card bg-slate-900 rounded-2xl max-w-md w-full p-6 text-center border border-slate-700 shadow-2xl space-y-4">
-            <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent"></div>
+            <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-indigo-500 border-t-transparent"></div>
             <h3 class="text-lg font-bold text-white">Aguarde... A Mágica está acontecendo</h3>
-            <p id="statusText" class="text-xs text-slate-300">Carregando OpenCV e preparando redução de ruído...</p>
-            <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
-                <div id="progressBar" class="bg-indigo-500 h-full w-0 transition-all duration-300"></div>
+            <p id="statusText" class="text-xs text-indigo-300 h-6 flex items-center justify-center font-medium">Iniciando motores de inteligência visual...</p>
+            
+            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
+                <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full w-0 transition-all duration-300"></div>
+            </div>
+
+            <!-- Anúncio 3: Dentro do Modal de Processamento -->
+            <div id="modalAdSlot" class="pt-3 border-t border-slate-800 min-h-[100px]">
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Publicidade</p>
             </div>
         </div>
     </div>
@@ -427,84 +438,93 @@
             preProcessSection.scrollIntoView({ behavior: 'smooth' });
         }
 
+        // Processamento com temporizador suave de exatamente 20 segundos (20000 ms)
         function processImage() {
             if (!loadedImage) return;
 
             processingModal.classList.remove('hidden');
-            progressBar.style.width = '10%';
-            statusText.innerText = "Inicializando motores de imagem...";
+            progressBar.style.width = '0%';
+            
+            const totalDuration = 20000; // 20 segundos
+            const intervalTime = 200; // Atualiza a cada 200ms
+            let elapsedTime = 0;
 
-            setTimeout(() => {
-                const origWidth = loadedImage.naturalWidth;
-                const origHeight = loadedImage.naturalHeight;
+            const stages = [
+                { time: 0, text: "Carregando módulo de visão computacional OpenCV..." },
+                { time: 3000, text: "Analisando estrutura de pixels da imagem..." },
+                { time: 7000, text: "Aplicando algoritmo de ampliação Lanczos4..." },
+                { time: 12000, text: "Executando máscara de nitidez Gaussiana..." },
+                { time: 16000, text: "Ajustando resolução para 5000px e injetando 300 DPI..." },
+                { time: 19000, text: "Finalizando otimização da imagem..." }
+            ];
 
-                inputCanvas.width = origWidth;
-                inputCanvas.height = origHeight;
-                const inputCtx = inputCanvas.getContext('2d');
-                inputCtx.drawImage(loadedImage, 0, 0);
+            // Renderiza o processamento em background no canvas/OpenCV
+            const origWidth = loadedImage.naturalWidth;
+            const origHeight = loadedImage.naturalHeight;
+            inputCanvas.width = origWidth;
+            inputCanvas.height = origHeight;
+            const inputCtx = inputCanvas.getContext('2d');
+            inputCtx.drawImage(loadedImage, 0, 0);
 
-                progressBar.style.width = '40%';
-                statusText.innerText = "Aplicando OpenCV (Lanczos4 & Gaussian Sharpening)...";
+            if (isOpenCvReady && typeof cv !== 'undefined') {
+                try {
+                    let src = cv.imread(inputCanvas);
+                    let resized = new cv.Mat();
+                    let dst = new cv.Mat();
+                    let dsize = new cv.Size(projectedWidth, projectedHeight);
+                    cv.resize(src, resized, dsize, 0, 0, cv.INTER_LANCZOS4);
 
-                setTimeout(() => {
-                    if (isOpenCvReady && typeof cv !== 'undefined') {
-                        try {
-                            let src = cv.imread(inputCanvas);
-                            let resized = new cv.Mat();
-                            let dst = new cv.Mat();
+                    let blurred = new cv.Mat();
+                    let ksize = new cv.Size(3, 3);
+                    cv.GaussianBlur(resized, blurred, ksize, 0, 0, cv.BORDER_DEFAULT);
+                    cv.addWeighted(resized, 1.5, blurred, -0.5, 0, dst);
 
-                            let dsize = new cv.Size(projectedWidth, projectedHeight);
-                            cv.resize(src, resized, dsize, 0, 0, cv.INTER_LANCZOS4);
+                    outputCanvas.width = projectedWidth;
+                    outputCanvas.height = projectedHeight;
+                    cv.imshow(outputCanvas, dst);
 
-                            let blurred = new cv.Mat();
-                            let ksize = new cv.Size(3, 3);
-                            cv.GaussianBlur(resized, blurred, ksize, 0, 0, cv.BORDER_DEFAULT);
-                            
-                            cv.addWeighted(resized, 1.5, blurred, -0.5, 0, dst);
+                    src.delete();
+                    resized.delete();
+                    blurred.delete();
+                    dst.delete();
+                } catch (err) {
+                    processFallbackCanvas(projectedWidth, projectedHeight);
+                }
+            } else {
+                processFallbackCanvas(projectedWidth, projectedHeight);
+            }
 
-                            outputCanvas.width = projectedWidth;
-                            outputCanvas.height = projectedHeight;
-                            cv.imshow(outputCanvas, dst);
+            afterImg.src = outputCanvas.toDataURL('image/png');
 
-                            src.delete();
-                            resized.delete();
-                            blurred.delete();
-                            dst.delete();
-                        } catch (err) {
-                            console.warn("Fallback para Canvas NATIVO:", err);
-                            processFallbackCanvas(projectedWidth, projectedHeight);
-                        }
-                    } else {
-                        processFallbackCanvas(projectedWidth, projectedHeight);
+            // Timer de 20 segundos com atualização da barra e textos
+            const timer = setInterval(() => {
+                elapsedTime += intervalTime;
+                const progress = Math.min(100, Math.round((elapsedTime / totalDuration) * 100));
+                progressBar.style.width = `${progress}%`;
+
+                // Atualiza o texto dinâmico
+                for (let i = stages.length - 1; i >= 0; i--) {
+                    if (elapsedTime >= stages[i].time) {
+                        statusText.innerText = stages[i].text;
+                        break;
                     }
+                }
 
-                    afterImg.src = outputCanvas.toDataURL('image/png');
+                if (elapsedTime >= totalDuration) {
+                    clearInterval(timer);
+                    
+                    originalInfo.innerText = `${origWidth} x ${origHeight} px`;
+                    targetInfo.innerText = `${projectedWidth} x ${projectedHeight} px`;
 
-                    progressBar.style.width = '100%';
-                    statusText.innerText = "Injetando metadados de 300 DPI...";
+                    processingModal.classList.add('hidden');
+                    preProcessSection.classList.add('hidden');
+                    resultSection.classList.remove('hidden');
 
-                    setTimeout(() => {
-                        originalInfo.innerText = `${origWidth} x ${origHeight} px`;
-                        targetInfo.innerText = `${projectedWidth} x ${projectedHeight} px`;
-
-                        processingModal.classList.add('hidden');
-                        preProcessSection.classList.add('hidden');
-                        resultSection.classList.remove('hidden');
-
-                        const adContainer = document.getElementById('preProcessAdContainer');
-                        const downloadAdSlot = document.getElementById('downloadAdSlot');
-                        if (adContainer && downloadAdSlot) {
-                            downloadAdSlot.appendChild(adContainer);
-                        }
-
-                        updateSliderPosition(50);
-                        document.getElementById('comparisonTarget').scrollIntoView({ behavior: 'smooth' });
-                        showToast("Imagem otimizada com OpenCV e ampliada!");
-                    }, 400);
-
-                }, 200);
-
-            }, 200);
+                    updateSliderPosition(50);
+                    document.getElementById('comparisonTarget').scrollIntoView({ behavior: 'smooth' });
+                    showToast("Imagem otimizada com sucesso!");
+                }
+            }, intervalTime);
         }
 
         function processFallbackCanvas(targetWidth, targetHeight) {
