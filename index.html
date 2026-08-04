@@ -261,10 +261,19 @@
                 <p class="text-sm font-bold text-amber-400 tracking-wide uppercase">Download depois das propagandas</p>
             </div>
 
-            <!-- Anúncio 3: Resultado (Acima do Botão de Download) -->
-            <div class="p-4 border border-slate-800 rounded-xl bg-slate-900/40 max-w-lg mx-auto min-h-[100px] text-center">
+            <!-- Anúncio 3: Resultado (Iframe 300x250 Acima do Botão de Download) -->
+            <div class="p-4 border border-slate-800 rounded-xl bg-slate-900/40 max-w-lg mx-auto min-h-[270px] flex flex-col items-center justify-center overflow-hidden">
                 <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Publicidade</p>
-                <script src="https://avouchlawsrethink.com/76/68/fc/7668fc4caeaf9475872aed4a39090a44.js"></script>
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : 'bc2136a3bf3e7231c2a5b3d065c998eb',
+                        'format' : 'iframe',
+                        'height' : 250,
+                        'width' : 300,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="https://avouchlawsrethink.com/bc2136a3bf3e7231c2a5b3d065c998eb/invoke.js"></script>
             </div>
 
             <div class="glass-card rounded-2xl p-6 text-center space-y-6 max-w-lg mx-auto">
@@ -294,7 +303,7 @@
         </div>
     </main>
 
-    <!-- Processing Modal (20s de animação sem propaganda para não dar erro) -->
+    <!-- Processing Modal (com Anúncio 320x50 Integrado) -->
     <div id="processingModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
         <div class="glass-card bg-slate-900 rounded-2xl max-w-md w-full p-6 text-center border border-slate-700 shadow-2xl space-y-4">
             <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-indigo-500 border-t-transparent"></div>
@@ -303,6 +312,21 @@
             
             <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
                 <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full w-0 transition-all duration-300"></div>
+            </div>
+
+            <!-- Anúncio 4: Dentro do Modal de Processamento (Iframe 320x50) -->
+            <div class="pt-3 border-t border-slate-800 flex flex-col items-center justify-center overflow-hidden min-h-[70px]">
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Publicidade</p>
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : 'a70bc4fba1541d8672b05935862b998f',
+                        'format' : 'iframe',
+                        'height' : 50,
+                        'width' : 320,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="https://avouchlawsrethink.com/a70bc4fba1541d8672b05935862b998f/invoke.js"></script>
             </div>
         </div>
     </div>
