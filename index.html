@@ -131,8 +131,13 @@
             <h2 class="text-3xl sm:text-4xl font-extrabold mb-3 text-white tracking-tight">
                 Faça a Mágica Acontecer
             </h2>
-            <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
+            <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base mb-4">
                 Faça o Upload para ter uma imagem melhorada com até 5000 px e 300dpi, ideal para visualização e impressão
+            </p>
+            <!-- Instrução de navegação -->
+            <p class="text-amber-400 text-xs sm:text-sm font-semibold flex items-center justify-center space-x-1">
+                <i data-lucide="arrow-down-circle" class="w-4 h-4 animate-bounce"></i>
+                <span>Role para baixo para encontrar a área de upload da imagem</span>
             </p>
         </div>
 
@@ -183,9 +188,19 @@
                     </div>
                 </div>
 
-                <!-- Anúncio 2: Pré-processamento (Acima do Botão de Iniciar) -->
-                <div id="preProcessAdSlot" class="p-4 border border-slate-800 rounded-xl bg-slate-900/40 max-w-lg mx-auto min-h-[100px]">
+                <!-- Anúncio 2: Pré-processamento (Iframe 728x90) -->
+                <div class="p-4 border border-slate-800 rounded-xl bg-slate-900/40 max-w-lg mx-auto min-h-[100px] flex flex-col items-center justify-center overflow-hidden">
                     <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Publicidade</p>
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : '7077f275a791945e9be6b7d4b7463010',
+                            'format' : 'iframe',
+                            'height' : 90,
+                            'width' : 728,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="https://avouchlawsrethink.com/7077f275a791945e9be6b7d4b7463010/invoke.js"></script>
                 </div>
 
                 <!-- Botão de Iniciar Processamento -->
@@ -246,9 +261,10 @@
                 <p class="text-sm font-bold text-amber-400 tracking-wide uppercase">Download depois das propagandas</p>
             </div>
 
-            <!-- Anúncio 4: Resultado (Acima do Download) -->
-            <div id="downloadAdSlot" class="p-4 border border-slate-800 rounded-xl bg-slate-900/40 max-w-lg mx-auto min-h-[100px] text-center">
+            <!-- Anúncio 3: Resultado (Acima do Botão de Download) -->
+            <div class="p-4 border border-slate-800 rounded-xl bg-slate-900/40 max-w-lg mx-auto min-h-[100px] text-center">
                 <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Publicidade</p>
+                <script src="https://avouchlawsrethink.com/76/68/fc/7668fc4caeaf9475872aed4a39090a44.js"></script>
             </div>
 
             <div class="glass-card rounded-2xl p-6 text-center space-y-6 max-w-lg mx-auto">
@@ -278,7 +294,7 @@
         </div>
     </main>
 
-    <!-- Processing Modal (com 20s de espera e Anúncio 3 integrado) -->
+    <!-- Processing Modal (20s de animação sem propaganda para não dar erro) -->
     <div id="processingModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
         <div class="glass-card bg-slate-900 rounded-2xl max-w-md w-full p-6 text-center border border-slate-700 shadow-2xl space-y-4">
             <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-indigo-500 border-t-transparent"></div>
@@ -287,11 +303,6 @@
             
             <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
                 <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full w-0 transition-all duration-300"></div>
-            </div>
-
-            <!-- Anúncio 3: Dentro do Modal de Processamento -->
-            <div id="modalAdSlot" class="pt-3 border-t border-slate-800 min-h-[100px]">
-                <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Publicidade</p>
             </div>
         </div>
     </div>
@@ -438,7 +449,6 @@
             preProcessSection.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Processamento com temporizador suave de exatamente 20 segundos (20000 ms)
         function processImage() {
             if (!loadedImage) return;
 
@@ -446,7 +456,7 @@
             progressBar.style.width = '0%';
             
             const totalDuration = 20000; // 20 segundos
-            const intervalTime = 200; // Atualiza a cada 200ms
+            const intervalTime = 200;
             let elapsedTime = 0;
 
             const stages = [
@@ -458,7 +468,6 @@
                 { time: 19000, text: "Finalizando otimização da imagem..." }
             ];
 
-            // Renderiza o processamento em background no canvas/OpenCV
             const origWidth = loadedImage.naturalWidth;
             const origHeight = loadedImage.naturalHeight;
             inputCanvas.width = origWidth;
@@ -496,13 +505,11 @@
 
             afterImg.src = outputCanvas.toDataURL('image/png');
 
-            // Timer de 20 segundos com atualização da barra e textos
             const timer = setInterval(() => {
                 elapsedTime += intervalTime;
                 const progress = Math.min(100, Math.round((elapsedTime / totalDuration) * 100));
                 progressBar.style.width = `${progress}%`;
 
-                // Atualiza o texto dinâmico
                 for (let i = stages.length - 1; i >= 0; i--) {
                     if (elapsedTime >= stages[i].time) {
                         statusText.innerText = stages[i].text;
