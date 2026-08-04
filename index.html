@@ -93,6 +93,22 @@
 </head>
 <body class="gradient-bg min-h-screen text-slate-100 font-sans flex flex-col justify-between">
 
+    <!-- Pop-up de Aviso de Anúncios ao Abrir o Site -->
+    <div id="welcomeAdNoticeModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
+        <div class="glass-card bg-slate-900 rounded-2xl max-w-sm w-full p-6 text-center border border-slate-700 shadow-2xl space-y-4">
+            <div class="w-12 h-12 mx-auto bg-indigo-500/10 rounded-full flex items-center justify-center text-indigo-400">
+                <i data-lucide="info" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-base font-bold text-white">Aviso Importante</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Anúncios poderão ser exibidos, basta fechar a janela do anúncio e seguir usando o site
+            </p>
+            <button onclick="closeWelcomeModal()" class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl text-xs transition">
+                Entendi e Desejo Continuar
+            </button>
+        </div>
+    </div>
+
     <!-- Header / Navbar -->
     <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur-md sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -173,7 +189,7 @@
                 <!-- Botão de Iniciar Processamento -->
                 <button onclick="processImage()" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition duration-300 flex items-center justify-center space-x-3 text-lg mx-auto">
                     <i data-lucide="wand-2" class="w-6 h-6"></i>
-                    <span>Começar Melhoria com IA & OpenCV</span>
+                    <span>Clique para Iniciar</span>
                 </button>
             </div>
         </div>
@@ -261,7 +277,7 @@
     <div id="processingModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
         <div class="glass-card bg-slate-900 rounded-2xl max-w-md w-full p-6 text-center border border-slate-700 shadow-2xl space-y-4">
             <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-500 border-t-transparent"></div>
-            <h3 class="text-lg font-bold text-white">Processando com Visão Computacional</h3>
+            <h3 class="text-lg font-bold text-white">Aguarde... A Mágica está acontecendo</h3>
             <p id="statusText" class="text-xs text-slate-300">Carregando OpenCV e preparando redução de ruído...</p>
             <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
                 <div id="progressBar" class="bg-indigo-500 h-full w-0 transition-all duration-300"></div>
@@ -289,6 +305,10 @@
 
         let isOpenCvReady = false;
         const pixCode = "00020126570014br.gov.bcb.pix0111121588807400220Obrigado pelo cafe! 5204000053039865802BR5921BRUNO DA SILVA PASSOS6009Sao Paulo62220518daqr6103765368066763049484";
+
+        function closeWelcomeModal() {
+            document.getElementById('welcomeAdNoticeModal').classList.add('hidden');
+        }
 
         function onOpenCvReady() {
             if (cv.getBuildInformation) {
@@ -626,4 +646,3 @@
     </script>
 </body>
 </html>
-
