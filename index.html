@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magic HQ Image 5000px - Ampliador e Melhora de Imagens</title>
+    <title>Magic HQ Image 5000px - Imagem em Alta Qualidade rápido como mágica</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
@@ -96,18 +96,16 @@
     <!-- Header / Navbar -->
     <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur-md sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div class="p-2 bg-indigo-600 rounded-xl shadow-lg shadow-indigo-500/30">
-                    <i data-lucide="sparkles" class="w-6 h-6 text-white"></i>
+            <div class="flex items-center space-x-3 w-full justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-indigo-600 rounded-xl shadow-lg shadow-indigo-500/30 flex-shrink-0">
+                        <i data-lucide="sparkles" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg sm:text-xl font-bold bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap">Magic HQ Image 5000px</h1>
+                        <p class="text-xs text-slate-400">Imagem em Alta Qualidade rápido como mágica</p>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="text-xl font-bold bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent">Magic HQ Image 5000px</h1>
-                    <p class="text-xs text-slate-400">Ampliação 5000px & 300 DPI</p>
-                </div>
-            </div>
-            <div id="cvStatus" class="text-xs font-semibold px-3 py-1.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30 flex items-center space-x-1.5">
-                <i data-lucide="loader" class="w-4 h-4 animate-spin"></i>
-                <span>Carregando Motor OpenCV...</span>
             </div>
         </div>
     </header>
@@ -118,10 +116,10 @@
         <!-- Intro Banner -->
         <div class="text-center mb-8">
             <h2 class="text-3xl sm:text-4xl font-extrabold mb-3 text-white tracking-tight">
-                Melhore e Amplie suas Fotos
+                Faça a Mágica Acontecer
             </h2>
             <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
-                Otimização avançada com visão, remoção de ruído, contraste inteligente e ampliação para 5000px a 300 DPI.
+                Faça o Upload para ter uma imagem melhorada com até 5000 px e 300dpi, ideal para visualização e impressão
             </p>
         </div>
 
@@ -144,11 +142,40 @@
             </div>
         </div>
 
-        <!-- Native Banner Ad: Abaixo do Upload (Início) -->
-        <div id="uploadAdContainer" class="glass-card rounded-2xl p-4 text-center max-w-lg mx-auto mb-8 min-h-[100px]">
-            <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Publicidade</p>
-            <script async="async" data-cfasync="false" src="https://avouchlawsrethink.com/579dac958022192871b5f01bd22ef085/invoke.js"></script>
-            <div id="container-579dac958022192871b5f01bd22ef085"></div>
+        <!-- Pre-Processing Info & Action Section -->
+        <div id="preProcessSection" class="hidden space-y-6 mb-8">
+            <div class="glass-card rounded-2xl p-6 text-center space-y-6">
+                <h3 class="text-lg font-bold text-white flex items-center justify-center space-x-2">
+                    <i data-lucide="file-image" class="w-5 h-5 text-indigo-400"></i>
+                    <span>Imagem Carregada com Sucesso</span>
+                </h3>
+
+                <!-- Comparativo de Resolução Planejada -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto text-sm">
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80">
+                        <span class="text-slate-400 text-xs uppercase font-bold block mb-1">Tamanho Atual</span>
+                        <span id="previewOriginalPx" class="text-lg font-extrabold text-slate-200">0 x 0 px</span>
+                    </div>
+                    <div class="bg-indigo-950/80 p-4 rounded-xl border border-indigo-500/40">
+                        <span class="text-indigo-300 text-xs uppercase font-bold block mb-1">Resolução Final Projetada</span>
+                        <span id="previewTargetPx" class="text-lg font-extrabold text-indigo-200">0 x 0 px</span>
+                        <span class="text-[10px] text-emerald-400 block mt-1 font-semibold">+ 300 DPI Injetado</span>
+                    </div>
+                </div>
+
+                <!-- Native Banner Ad -->
+                <div id="preProcessAdContainer" class="p-4 border border-slate-800 rounded-xl bg-slate-900/40 max-w-lg mx-auto min-h-[100px]">
+                    <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Publicidade</p>
+                    <script async="async" data-cfasync="false" src="https://avouchlawsrethink.com/579dac958022192871b5f01bd22ef085/invoke.js"></script>
+                    <div id="container-579dac958022192871b5f01bd22ef085"></div>
+                </div>
+
+                <!-- Botão de Iniciar Processamento -->
+                <button onclick="processImage()" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition duration-300 flex items-center justify-center space-x-3 text-lg mx-auto">
+                    <i data-lucide="wand-2" class="w-6 h-6"></i>
+                    <span>Começar Melhoria com IA & OpenCV</span>
+                </button>
+            </div>
         </div>
 
         <!-- Result Section -->
@@ -169,9 +196,9 @@
                 </div>
 
                 <div class="flex items-center space-x-3 w-full sm:w-auto">
-                    <button onclick="processImage()" class="w-full sm:w-auto px-4 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-xs font-medium text-slate-200 transition flex items-center justify-center space-x-2">
-                        <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
-                        <span>Refazer Otimização</span>
+                    <button onclick="resetApp()" class="w-full sm:w-auto px-4 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-xs font-medium text-slate-200 transition flex items-center justify-center space-x-2">
+                        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                        <span>Enviar Outra Imagem</span>
                     </button>
                 </div>
             </div>
@@ -248,7 +275,7 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-800 bg-slate-900/40 py-6 text-center text-xs text-slate-500">
-        <p>Processamento local, suas imagens estão seguras.</p>
+        <p>Desenvolvido para processamento de alta resolução local no navegador usando WebAssembly.</p>
     </footer>
 
     <!-- Toast -->
@@ -266,17 +293,9 @@
         function onOpenCvReady() {
             if (cv.getBuildInformation) {
                 isOpenCvReady = true;
-                const statusDiv = document.getElementById('cvStatus');
-                statusDiv.className = "text-xs font-semibold px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 flex items-center space-x-1.5";
-                statusDiv.innerHTML = `<i data-lucide="shield-check" class="w-4 h-4"></i><span>Motor OpenCV Ativo</span>`;
-                lucide.createIcons();
             } else {
                 cv['onRuntimeInitialized'] = () => {
                     isOpenCvReady = true;
-                    const statusDiv = document.getElementById('cvStatus');
-                    statusDiv.className = "text-xs font-semibold px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 flex items-center space-x-1.5";
-                    statusDiv.innerHTML = `<i data-lucide="shield-check" class="w-4 h-4"></i><span>Motor OpenCV Ativo</span>`;
-                    lucide.createIcons();
                 };
             }
         }
@@ -297,10 +316,11 @@
 
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
+        const preProcessSection = document.getElementById('preProcessSection');
+        const resultSection = document.getElementById('resultSection');
         const processingModal = document.getElementById('processingModal');
         const progressBar = document.getElementById('progressBar');
         const statusText = document.getElementById('statusText');
-        const resultSection = document.getElementById('resultSection');
         
         const beforeImg = document.getElementById('beforeImg');
         const afterImg = document.getElementById('afterImg');
@@ -309,6 +329,8 @@
         
         const originalInfo = document.getElementById('originalInfo');
         const targetInfo = document.getElementById('targetInfo');
+        const previewOriginalPx = document.getElementById('previewOriginalPx');
+        const previewTargetPx = document.getElementById('previewTargetPx');
 
         const sliderBox = document.getElementById('sliderBox');
         const beforeWrapper = document.getElementById('beforeWrapper');
@@ -316,6 +338,8 @@
 
         let loadedImage = null;
         let isDragging = false;
+        let projectedWidth = 0;
+        let projectedHeight = 0;
 
         dropZone.addEventListener('click', () => fileInput.click());
 
@@ -354,11 +378,33 @@
                 img.onload = () => {
                     loadedImage = img;
                     beforeImg.src = e.target.result;
-                    processImage();
+                    showPreProcessInfo();
                 };
                 img.src = e.target.result;
             };
             reader.readAsDataURL(file);
+        }
+
+        function showPreProcessInfo() {
+            const origWidth = loadedImage.naturalWidth;
+            const origHeight = loadedImage.naturalHeight;
+            const maxDim = 5000;
+
+            if (origWidth >= origHeight) {
+                projectedWidth = maxDim;
+                projectedHeight = Math.round((origHeight / origWidth) * maxDim);
+            } else {
+                projectedHeight = maxDim;
+                projectedWidth = Math.round((origWidth / origHeight) * maxDim);
+            }
+
+            previewOriginalPx.innerText = `${origWidth} x ${origHeight} px`;
+            previewTargetPx.innerText = `${projectedWidth} x ${projectedHeight} px`;
+
+            preProcessSection.classList.remove('hidden');
+            resultSection.classList.add('hidden');
+
+            preProcessSection.scrollIntoView({ behavior: 'smooth' });
         }
 
         function processImage() {
@@ -372,63 +418,44 @@
                 const origWidth = loadedImage.naturalWidth;
                 const origHeight = loadedImage.naturalHeight;
 
-                let targetWidth, targetHeight;
-                const maxDim = 5000;
-
-                if (origWidth >= origHeight) {
-                    targetWidth = maxDim;
-                    targetHeight = Math.round((origHeight / origWidth) * maxDim);
-                } else {
-                    targetHeight = maxDim;
-                    targetWidth = Math.round((origWidth / origHeight) * maxDim);
-                }
-
-                // Desenha entrada no canvas oculto
                 inputCanvas.width = origWidth;
                 inputCanvas.height = origHeight;
                 const inputCtx = inputCanvas.getContext('2d');
                 inputCtx.drawImage(loadedImage, 0, 0);
 
                 progressBar.style.width = '40%';
-                statusText.innerText = "Aplicando algoritmo OpenCV (Denoising & Sharpening)...";
+                statusText.innerText = "Aplicando OpenCV (Lanczos4 & Gaussian Sharpening)...";
 
                 setTimeout(() => {
                     if (isOpenCvReady && typeof cv !== 'undefined') {
                         try {
-                            // Ler imagem com OpenCV
                             let src = cv.imread(inputCanvas);
                             let resized = new cv.Mat();
                             let dst = new cv.Mat();
 
-                            // 1. Redimensionar usando interpolação LNCZOS4 (mais nitidez do que a nativa do browser)
-                            let dsize = new cv.Size(targetWidth, targetHeight);
+                            let dsize = new cv.Size(projectedWidth, projectedHeight);
                             cv.resize(src, resized, dsize, 0, 0, cv.INTER_LANCZOS4);
 
-                            // 2. Aplicar filtro de nitidez por máscara de desfoque (Unsharp Masking) com Matriz Gaussiana
                             let blurred = new cv.Mat();
                             let ksize = new cv.Size(3, 3);
                             cv.GaussianBlur(resized, blurred, ksize, 0, 0, cv.BORDER_DEFAULT);
                             
-                            // dst = 1.5 * resized - 0.5 * blurred (Gera nitidez sem artefatos plásticos)
                             cv.addWeighted(resized, 1.5, blurred, -0.5, 0, dst);
 
-                            // Renderizar no canvas de saída
-                            outputCanvas.width = targetWidth;
-                            outputCanvas.height = targetHeight;
+                            outputCanvas.width = projectedWidth;
+                            outputCanvas.height = projectedHeight;
                             cv.imshow(outputCanvas, dst);
 
-                            // Liberação de memória WebAssembly do OpenCV
                             src.delete();
                             resized.delete();
                             blurred.delete();
                             dst.delete();
                         } catch (err) {
-                            console.warn("Fallback para Canvas NATIVO devido a erro no OpenCV:", err);
-                            processFallbackCanvas(targetWidth, targetHeight);
+                            console.warn("Fallback para Canvas NATIVO:", err);
+                            processFallbackCanvas(projectedWidth, projectedHeight);
                         }
                     } else {
-                        // Fallback se o OpenCV ainda não estiver pronto
-                        processFallbackCanvas(targetWidth, targetHeight);
+                        processFallbackCanvas(projectedWidth, projectedHeight);
                     }
 
                     afterImg.src = outputCanvas.toDataURL('image/png');
@@ -438,12 +465,13 @@
 
                     setTimeout(() => {
                         originalInfo.innerText = `${origWidth} x ${origHeight} px`;
-                        targetInfo.innerText = `${targetWidth} x ${targetHeight} px`;
+                        targetInfo.innerText = `${projectedWidth} x ${projectedHeight} px`;
 
                         processingModal.classList.add('hidden');
+                        preProcessSection.classList.add('hidden');
                         resultSection.classList.remove('hidden');
 
-                        const adContainer = document.getElementById('uploadAdContainer');
+                        const adContainer = document.getElementById('preProcessAdContainer');
                         const downloadAdSlot = document.getElementById('downloadAdSlot');
                         if (adContainer && downloadAdSlot) {
                             downloadAdSlot.appendChild(adContainer);
@@ -466,6 +494,14 @@
             ctx.imageSmoothingEnabled = true;
             ctx.imageSmoothingQuality = 'high';
             ctx.drawImage(loadedImage, 0, 0, targetWidth, targetHeight);
+        }
+
+        function resetApp() {
+            loadedImage = null;
+            fileInput.value = '';
+            resultSection.classList.add('hidden');
+            preProcessSection.classList.add('hidden');
+            dropZone.scrollIntoView({ behavior: 'smooth' });
         }
 
         function updateSliderPosition(percent) {
@@ -590,3 +626,4 @@
     </script>
 </body>
 </html>
+
