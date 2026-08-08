@@ -3,34 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magic HQ Image 5000px - Imagem em Alta Qualidade rápido como mágica</title>
+    <title>Magic HQ Image 5000px - Upscale & 300 DPI para Artes de IA e Design</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- QRCode Generator CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <!-- OpenCV.js para tratamento avançado de imagens -->
     <script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady();"></script>
 
     <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #090d16;
+        }
         .gradient-bg {
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            background: radial-gradient(circle at 50% -20%, #1e1b4b 0%, #090d16 70%);
         }
         .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card-hover {
+            transition: all 0.3s ease;
+        }
+        .glass-card-hover:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.15);
         }
         .slider-container {
             position: relative;
             width: 100%;
             max-width: 800px;
-            height: 400px;
+            height: 420px;
             margin: 0 auto;
             overflow: hidden;
-            border-radius: 12px;
-            background-color: #020617;
+            border-radius: 16px;
+            background-color: #030712;
             touch-action: none;
             user-select: none;
         }
@@ -57,11 +72,11 @@
             top: 0;
             bottom: 0;
             left: 50%;
-            width: 4px;
-            background: #6366f1;
+            width: 3px;
+            background: #818cf8;
             z-index: 20;
             transform: translateX(-50%);
-            box-shadow: 0 0 10px rgba(99, 102, 241, 0.8);
+            box-shadow: 0 0 12px rgba(129, 140, 248, 0.9);
             cursor: ew-resize;
         }
         .slider-button {
@@ -69,112 +84,123 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: #6366f1;
+            background: #4f46e5;
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6), 0 0 10px rgba(99, 102, 241, 0.5);
             pointer-events: none;
-        }
-        #qrcode img {
-            margin: 0 auto;
-            border-radius: 8px;
-            padding: 6px;
-            background: #ffffff;
         }
     </style>
 </head>
-<body class="gradient-bg min-h-screen text-slate-100 font-sans flex flex-col justify-between">
+<body class="gradient-bg min-h-screen text-slate-100 antialiased flex flex-col justify-between">
 
     <!-- Header / Navbar -->
-    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur-md sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3 w-full justify-between">
-                <div class="flex items-center space-x-3">
-                    <div class="p-2 bg-indigo-600 rounded-xl shadow-lg shadow-indigo-500/30 flex-shrink-0">
-                        <i data-lucide="sparkles" class="w-6 h-6 text-white"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-lg sm:text-xl font-bold bg-gradient-to-r from-white via-indigo-200 to-indigo-400 bg-clip-text text-transparent whitespace-nowrap">Magic HQ Image 5000px</h1>
-                        <p class="text-xs text-slate-400">Imagem em Alta Qualidade rápido como mágica</p>
-                    </div>
+    <header class="border-b border-slate-800/80 bg-slate-950/60 backdrop-blur-xl sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 py-3.5 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-gradient-to-tr from-indigo-600 to-violet-500 rounded-xl shadow-lg shadow-indigo-500/20">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
                 </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-bold bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent tracking-tight">
+                        Magic HQ Image <span class="text-indigo-400 text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 font-semibold ml-1">5000px</span>
+                    </h1>
+                </div>
+            </div>
+            
+            <!-- Badge de Privacidade -->
+            <div class="hidden sm:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                <span>100% Processamento Local (Zero Upload)</span>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
+    <main class="max-w-4xl mx-auto px-4 py-10 flex-grow w-full">
 
-        <!-- Intro Banner -->
-        <div class="text-center mb-6">
-            <h2 class="text-3xl sm:text-4xl font-extrabold mb-3 text-white tracking-tight">
-                Faça a Mágica Acontecer
+        <!-- Intro Hero Section -->
+        <div class="text-center mb-8 space-y-3">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs font-semibold mb-2">
+                <i data-lucide="wand-2" class="w-3.5 h-3.5 text-violet-400"></i>
+                <span>Otimizado para Artes de IA, Midjourney, DALL-E e Design Digital</span>
+            </div>
+            
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                Eleve a resolução da sua arte para <span class="bg-gradient-to-r from-indigo-400 via-violet-300 to-cyan-400 bg-clip-text text-transparent">Qualidade de Impressão</span>
             </h2>
-            <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base mb-4">
-                Faça o Upload para ter uma imagem melhorada com até 5000 px e 300dpi, ideal para visualização e impressão
+            
+            <p class="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                Aumente suas imagens para até **5000 px** com interpolação Lanczos4 e injeção direta de **300 DPI**. Ideal para posters, quadros e portfólios profissionais.
             </p>
-            <!-- Instrução de navegação -->
-            <p class="text-amber-400 text-xs sm:text-sm font-semibold flex items-center justify-center space-x-1">
-                <i data-lucide="arrow-down-circle" class="w-4 h-4 animate-bounce"></i>
-                <span>Role para baixo para encontrar a área de upload da imagem</span>
-            </p>
+
+            <!-- Badges Técnicas -->
+            <div class="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs text-slate-400">
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60 font-mono">Lanczos4 Resampling</span>
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60 font-mono">WebAssembly Engine</span>
+                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60 font-mono">300 DPI Export</span>
+            </div>
         </div>
 
         <!-- Anúncio 1: Topo (Acima do Upload) -->
-        <div class="p-4 border border-slate-800 rounded-xl bg-slate-900/40 max-w-lg mx-auto mb-6 text-center min-h-[100px]">
-            <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Publicidade</p>
+        <div class="p-3 border border-slate-800/80 rounded-2xl bg-slate-900/30 max-w-lg mx-auto mb-8 text-center min-h-[90px] flex flex-col items-center justify-center">
+            <p class="text-[9px] text-slate-500 uppercase tracking-widest mb-1.5 font-semibold">Publicidade</p>
             <script async="async" data-cfasync="false" src="https://avouchlawsrethink.com/579dac958022192871b5f01bd22ef085/invoke.js"></script>
             <div id="container-579dac958022192871b5f01bd22ef085"></div>
         </div>
 
-        <!-- Drag & Drop Zone / File Input -->
-        <div id="dropZone" class="glass-card rounded-2xl p-8 text-center border-2 border-dashed border-slate-600 hover:border-indigo-500 transition-all cursor-pointer shadow-xl mb-6 group relative overflow-hidden">
+        <!-- Drag & Drop Zone -->
+        <div id="dropZone" class="glass-card glass-card-hover rounded-3xl p-10 text-center border-2 border-dashed border-slate-700/80 hover:border-indigo-500 cursor-pointer shadow-2xl mb-8 group relative overflow-hidden transition-all">
             <input type="file" id="fileInput" accept="image/*" class="hidden">
             
-            <div id="uploadPrompt" class="space-y-4 py-6">
-                <div class="w-16 h-16 mx-auto bg-indigo-500/10 rounded-full flex items-center justify-center text-indigo-400 group-hover:scale-110 group-hover:bg-indigo-500/20 transition duration-300">
-                    <i data-lucide="upload-cloud" class="w-8 h-8"></i>
+            <div id="uploadPrompt" class="space-y-4 py-4">
+                <div class="w-20 h-20 mx-auto bg-gradient-to-tr from-indigo-500/10 to-violet-500/10 rounded-2xl border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:scale-105 group-hover:border-indigo-500/40 transition duration-300 shadow-inner">
+                    <i data-lucide="image-plus" class="w-10 h-10"></i>
                 </div>
                 <div>
-                    <p class="text-lg font-semibold text-slate-200">Arraste e solte a sua imagem aqui</p>
-                    <p class="text-sm text-slate-400 mt-1">ou clique para escolher do seu dispositivo</p>
+                    <p class="text-xl font-bold text-slate-100">Arraste e solte sua arte aqui</p>
+                    <p class="text-xs sm:text-sm text-slate-400 mt-1.5">ou clique para selecionar do seu dispositivo</p>
                 </div>
-                <div class="flex items-center justify-center space-x-4 text-xs text-slate-500 pt-2">
-                    <span class="flex items-center"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 mr-1"></i> Suporta JPG, PNG, WEBP</span>
-                    <span class="flex items-center"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400 mr-1"></i> Saída PNG 5000px / 300 DPI</span>
+                
+                <div class="flex flex-wrap items-center justify-center gap-4 text-xs text-slate-400 pt-3 border-t border-slate-800/60 max-w-md mx-auto">
+                    <span class="flex items-center"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 mr-1.5"></i> JPG, PNG, WEBP</span>
+                    <span class="flex items-center"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 mr-1.5"></i> Saída PNG 5000px</span>
+                    <span class="flex items-center"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 mr-1.5"></i> Preserva Privacidade</span>
                 </div>
             </div>
         </div>
 
         <!-- Pre-Processing Info & Action Section -->
         <div id="preProcessSection" class="hidden space-y-6 mb-8">
-            <div class="glass-card rounded-2xl p-6 text-center space-y-6">
-                <h3 class="text-lg font-bold text-white flex items-center justify-center space-x-2">
-                    <i data-lucide="file-image" class="w-5 h-5 text-indigo-400"></i>
-                    <span>Imagem Carregada com Sucesso</span>
-                </h3>
+            <div class="glass-card rounded-3xl p-8 text-center space-y-6 border border-slate-700/60 shadow-2xl">
+                <div class="flex items-center justify-center space-x-2 text-indigo-300">
+                    <i data-lucide="file-check" class="w-5 h-5 text-indigo-400"></i>
+                    <h3 class="text-base font-bold text-white">Imagem Pronta para Processamento</h3>
+                </div>
 
-                <!-- Comparativo de Resolução Planejada -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto text-sm">
-                    <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/80">
-                        <span class="text-slate-400 text-xs uppercase font-bold block mb-1">Tamanho Atual</span>
-                        <span id="previewOriginalPx" class="text-lg font-extrabold text-slate-200">0 x 0 px</span>
+                <!-- Comparativo de Resolução Planejada + Dimensões de Impressão -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto text-sm">
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 text-left">
+                        <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider block mb-1">Resolução Original</span>
+                        <span id="previewOriginalPx" class="text-base font-extrabold text-slate-200 block">0 x 0 px</span>
+                        <span class="text-[11px] text-slate-500 block mt-0.5">Resolução do arquivo enviado</span>
                     </div>
-                    <div class="bg-indigo-950/80 p-4 rounded-xl border border-indigo-500/40">
-                        <span class="text-indigo-300 text-xs uppercase font-bold block mb-1">Resolução Final Projetada</span>
-                        <span id="previewTargetPx" class="text-lg font-extrabold text-indigo-200">0 x 0 px</span>
-                        <span class="text-[10px] text-emerald-400 block mt-1 font-semibold">+ 300 DPI Injetado</span>
+                    <div class="bg-indigo-950/40 p-4 rounded-2xl border border-indigo-500/30 text-left relative overflow-hidden">
+                        <div class="absolute -right-2 -bottom-2 w-16 h-16 bg-indigo-500/10 rounded-full blur-xl"></div>
+                        <span class="text-indigo-300 text-[10px] uppercase font-bold tracking-wider block mb-1">Resolução Projetada</span>
+                        <span id="previewTargetPx" class="text-base font-extrabold text-indigo-200 block">0 x 0 px</span>
+                        <span id="previewPrintCm" class="text-[11px] text-emerald-400 font-semibold block mt-0.5">~ 0 x 0 cm em 300 DPI</span>
                     </div>
                 </div>
 
                 <!-- Anúncio 2: Pré-processamento (Iframe 728x90) -->
-                <div class="p-4 border border-slate-800 rounded-xl bg-slate-900/40 max-w-lg mx-auto min-h-[100px] flex flex-col items-center justify-center overflow-hidden">
-                    <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Publicidade</p>
+                <div class="p-3 border border-slate-800/80 rounded-2xl bg-slate-900/30 max-w-lg mx-auto min-h-[90px] flex flex-col items-center justify-center overflow-hidden">
+                    <p class="text-[9px] text-slate-500 uppercase tracking-widest mb-1 font-semibold">Publicidade</p>
                     <script type="text/javascript">
                         atOptions = {
                             'key' : '7077f275a791945e9be6b7d4b7463010',
@@ -188,9 +214,9 @@
                 </div>
 
                 <!-- Botão de Iniciar Processamento -->
-                <button onclick="processImage()" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition duration-300 flex items-center justify-center space-x-3 text-lg mx-auto">
-                    <i data-lucide="wand-2" class="w-6 h-6"></i>
-                    <span>Clique para Iniciar</span>
+                <button onclick="processImage()" class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-indigo-500 via-indigo-600 to-violet-600 hover:from-indigo-400 hover:to-violet-500 text-white font-bold rounded-2xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition duration-300 flex items-center justify-center space-x-3 text-base mx-auto cursor-pointer">
+                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    <span>Iniciar Mágica (Upscale HQ)</span>
                 </button>
             </div>
         </div>
@@ -199,34 +225,32 @@
         <div id="resultSection" class="hidden space-y-6">
             
             <!-- Controls & Information -->
-            <div class="glass-card rounded-2xl p-5 flex flex-wrap items-center justify-between gap-4">
+            <div class="glass-card rounded-2xl p-5 flex flex-wrap items-center justify-between gap-4 border border-slate-800">
                 <div class="flex items-center space-x-4 text-xs sm:text-sm">
-                    <div class="bg-slate-800 p-2.5 rounded-lg border border-slate-700">
+                    <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
                         <span class="text-slate-400 block text-[10px] uppercase font-bold">Original:</span>
-                        <span id="originalInfo" class="font-semibold text-slate-200">0 x 0 px</span>
+                        <span id="originalInfo" class="font-semibold text-slate-300">0 x 0 px</span>
                     </div>
                     <i data-lucide="arrow-right" class="w-4 h-4 text-indigo-400"></i>
-                    <div class="bg-indigo-950/60 p-2.5 rounded-lg border border-indigo-500/30">
+                    <div class="bg-indigo-950/60 p-2.5 rounded-xl border border-indigo-500/30">
                         <span class="text-indigo-300 block text-[10px] uppercase font-bold">Ampliada (5000px / 300 DPI):</span>
                         <span id="targetInfo" class="font-bold text-indigo-200">0 x 0 px</span>
                     </div>
                 </div>
 
-                <div class="flex items-center space-x-3 w-full sm:w-auto">
-                    <button onclick="resetApp()" class="w-full sm:w-auto px-4 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg text-xs font-medium text-slate-200 transition flex items-center justify-center space-x-2">
-                        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-                        <span>Enviar Outra Imagem</span>
-                    </button>
-                </div>
+                <button onclick="resetApp()" class="w-full sm:w-auto px-4 py-2 bg-slate-800/80 hover:bg-slate-700 border border-slate-700/80 rounded-xl text-xs font-medium text-slate-200 transition flex items-center justify-center space-x-2">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                    <span>Nova Imagem</span>
+                </button>
             </div>
 
             <!-- Before & After Interactive Slider Container -->
-            <div id="comparisonTarget" class="glass-card rounded-2xl p-4 flex flex-col items-center border-indigo-500/20">
+            <div id="comparisonTarget" class="glass-card rounded-3xl p-4 flex flex-col items-center border border-indigo-500/20 shadow-2xl">
                 <span class="text-xs font-semibold text-indigo-300 mb-3 flex items-center">
-                    <i data-lucide="sliders" class="w-3.5 h-3.5 mr-1 text-indigo-400"></i> Arraste a linha para comparar: Antes vs Depois
+                    <i data-lucide="sliders" class="w-3.5 h-3.5 mr-1.5 text-indigo-400"></i> Arraste a barra para comparar: Antes vs Depois (HQ)
                 </span>
 
-                <div id="sliderBox" class="slider-container border border-indigo-500/30">
+                <div id="sliderBox" class="slider-container border border-slate-800">
                     <img id="afterImg" class="slider-img" alt="Ampliada">
 
                     <div id="beforeWrapper" class="slider-before-wrapper">
@@ -241,13 +265,9 @@
                 </div>
             </div>
 
-            <div class="text-center pt-2">
-                <p class="text-sm font-bold text-amber-400 tracking-wide uppercase">Download depois das propagandas</p>
-            </div>
-
-            <!-- Anúncio 3: Resultado (Iframe 300x250 Acima do Botão de Download) -->
-            <div class="p-4 border border-slate-800 rounded-xl bg-slate-900/40 max-w-lg mx-auto min-h-[270px] flex flex-col items-center justify-center overflow-hidden">
-                <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-2">Publicidade</p>
+            <!-- Anúncio 3: Resultado (Acima do Botão de Download) -->
+            <div class="p-4 border border-slate-800 rounded-2xl bg-slate-900/30 max-w-lg mx-auto min-h-[260px] flex flex-col items-center justify-center overflow-hidden">
+                <p class="text-[9px] text-slate-500 uppercase tracking-widest mb-2 font-semibold">Publicidade</p>
                 <script type="text/javascript">
                     atOptions = {
                         'key' : 'bc2136a3bf3e7231c2a5b3d065c998eb',
@@ -260,47 +280,36 @@
                 <script type="text/javascript" src="https://avouchlawsrethink.com/bc2136a3bf3e7231c2a5b3d065c998eb/invoke.js"></script>
             </div>
 
-            <div class="glass-card rounded-2xl p-6 text-center space-y-6 max-w-lg mx-auto">
-                <button id="downloadBtn" onclick="downloadImage()" class="w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition duration-300 flex items-center justify-center space-x-3 text-lg">
-                    <i data-lucide="download" class="w-6 h-6"></i>
-                    <span>Baixar Imagem</span>
+            <div class="glass-card rounded-3xl p-6 text-center space-y-4 max-w-lg mx-auto border border-slate-800">
+                <button id="downloadBtn" onclick="downloadImage()" class="w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold rounded-2xl shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition duration-300 flex items-center justify-center space-x-3 text-base cursor-pointer">
+                    <i data-lucide="download" class="w-5 h-5"></i>
+                    <span>Baixar Arte Ultra HQ (.PNG / 300 DPI)</span>
                 </button>
-
-                <!-- Pix / Coffee Block -->
-                <div class="pt-4 border-t border-slate-700/60 flex flex-col items-center space-y-3">
-                    <div class="flex items-center justify-center space-x-2 text-amber-300 font-semibold text-sm sm:text-base">
-                        <i data-lucide="coffee" class="w-5 h-5 text-amber-400"></i>
-                        <span>Gostou do resultado? Pague um café ☕️</span>
-                    </div>
-                    <p class="text-xs text-slate-400 max-w-xs">Ajude a manter este servidor gratuito e de código livre!</p>
-                    
-                    <div class="p-3 bg-white/10 rounded-xl border border-white/10 shadow-inner my-1">
-                        <div id="qrcode"></div>
-                    </div>
-
-                    <button onclick="copyPixCode()" class="w-full py-2.5 px-4 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-xl text-amber-300 hover:text-amber-200 text-xs font-semibold transition flex items-center justify-center space-x-2">
-                        <i data-lucide="copy" class="w-4 h-4"></i>
-                        <span>Copiar Chave Pix (Copia e Cola)</span>
-                    </button>
-                </div>
+                <p class="text-[11px] text-slate-400">Pronta para impressão em gráfica ou publicação digital em altíssima qualidade.</p>
             </div>
         </div>
     </main>
 
-    <!-- Processing Modal (com Anúncio 320x50 Integrado) -->
+    <!-- Processing Modal -->
     <div id="processingModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
-        <div class="glass-card bg-slate-900 rounded-2xl max-w-md w-full p-6 text-center border border-slate-700 shadow-2xl space-y-4">
-            <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-indigo-500 border-t-transparent"></div>
-            <h3 class="text-lg font-bold text-white">Aguarde... A Mágica está acontecendo</h3>
-            <p id="statusText" class="text-xs text-indigo-300 h-6 flex items-center justify-center font-medium">Iniciando motores de inteligência visual...</p>
+        <div class="glass-card bg-slate-900/90 rounded-3xl max-w-md w-full p-8 text-center border border-slate-700/80 shadow-2xl space-y-5">
+            <div class="relative inline-flex items-center justify-center">
+                <div class="w-12 h-12 rounded-full border-4 border-indigo-500/20 border-t-indigo-500 animate-spin"></div>
+                <i data-lucide="sparkles" class="w-5 h-5 text-indigo-400 absolute"></i>
+            </div>
             
-            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
-                <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full w-0 transition-all duration-300"></div>
+            <div>
+                <h3 class="text-lg font-bold text-white">Processando sua imagem...</h3>
+                <p id="statusText" class="text-xs text-indigo-300 h-6 flex items-center justify-center font-medium mt-1">Iniciando motores de visão computacional...</p>
+            </div>
+            
+            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700/50">
+                <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-violet-500 h-full w-0 transition-all duration-300"></div>
             </div>
 
-            <!-- Anúncio 4: Dentro do Modal de Processamento (Iframe 320x50) -->
-            <div class="pt-3 border-t border-slate-800 flex flex-col items-center justify-center overflow-hidden min-h-[70px]">
-                <p class="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Publicidade</p>
+            <!-- Anúncio 4: Dentro do Modal de Processamento -->
+            <div class="pt-3 border-t border-slate-800/80 flex flex-col items-center justify-center overflow-hidden min-h-[60px]">
+                <p class="text-[9px] text-slate-500 uppercase tracking-widest mb-1 font-semibold">Publicidade</p>
                 <script type="text/javascript">
                     atOptions = {
                         'key' : 'a70bc4fba1541d8672b05935862b998f',
@@ -315,16 +324,16 @@
         </div>
     </div>
 
-    <!-- Hidden Canvas -->
+    <!-- Hidden Canvases -->
     <canvas id="inputCanvas" class="hidden"></canvas>
     <canvas id="outputCanvas" class="hidden"></canvas>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-800 bg-slate-900/40 py-6 text-center text-xs text-slate-500">
-        <p>Desenvolvido para processamento de alta resolução local no navegador usando WebAssembly.</p>
+    <footer class="border-t border-slate-800/80 bg-slate-950/40 py-6 text-center text-xs text-slate-500">
+        <p class="max-w-md mx-auto">Processamento local de alta fidelidade via WebAssembly. Suas artes permanecem 100% privadas no seu navegador.</p>
     </footer>
 
-    <!-- Toast -->
+    <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-5 right-5 bg-emerald-600 text-white px-4 py-3 rounded-xl shadow-xl flex items-center space-x-2 text-sm font-medium transform translate-y-20 opacity-0 transition-all duration-300 z-50">
         <i data-lucide="check-circle" class="w-5 h-5"></i>
         <span id="toastMessage">Processo concluído com sucesso!</span>
@@ -334,7 +343,6 @@
         lucide.createIcons();
 
         let isOpenCvReady = false;
-        const pixCode = "00020126570014br.gov.bcb.pix0111121588807400220Obrigado pelo cafe! 5204000053039865802BR5921BRUNO DA SILVA PASSOS6009Sao Paulo62220518daqr6103765368066763049484";
 
         function onOpenCvReady() {
             if (cv.getBuildInformation) {
@@ -345,20 +353,6 @@
                 };
             }
         }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const qrContainer = document.getElementById("qrcode");
-            if (qrContainer) {
-                new QRCode(qrContainer, {
-                    text: pixCode,
-                    width: 128,
-                    height: 128,
-                    colorDark : "#000000",
-                    colorLight : "#ffffff",
-                    correctLevel : QRCode.CorrectLevel.M
-                });
-            }
-        });
 
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
@@ -377,6 +371,7 @@
         const targetInfo = document.getElementById('targetInfo');
         const previewOriginalPx = document.getElementById('previewOriginalPx');
         const previewTargetPx = document.getElementById('previewTargetPx');
+        const previewPrintCm = document.getElementById('previewPrintCm');
 
         const sliderBox = document.getElementById('sliderBox');
         const beforeWrapper = document.getElementById('beforeWrapper');
@@ -444,8 +439,13 @@
                 projectedWidth = Math.round((origWidth / origHeight) * maxDim);
             }
 
+            // Cálculo das dimensões físicas em centímetros (300 DPI)
+            const widthCm = ((projectedWidth / 300) * 2.54).toFixed(1);
+            const heightCm = ((projectedHeight / 300) * 2.54).toFixed(1);
+
             previewOriginalPx.innerText = `${origWidth} x ${origHeight} px`;
             previewTargetPx.innerText = `${projectedWidth} x ${projectedHeight} px`;
+            previewPrintCm.innerText = `~ ${widthCm} x ${heightCm} cm para impressão (300 DPI)`;
 
             preProcessSection.classList.remove('hidden');
             resultSection.classList.add('hidden');
@@ -459,17 +459,16 @@
             processingModal.classList.remove('hidden');
             progressBar.style.width = '0%';
             
-            const totalDuration = 20000; // 20 segundos
-            const intervalTime = 200;
+            const totalDuration = 12000; // Otimizado para 12 segundos
+            const intervalTime = 150;
             let elapsedTime = 0;
 
             const stages = [
-                { time: 0, text: "Carregando módulo de visão computacional OpenCV..." },
-                { time: 3000, text: "Analisando estrutura de pixels da imagem..." },
-                { time: 7000, text: "Aplicando algoritmo de ampliação Lanczos4..." },
-                { time: 12000, text: "Executando máscara de nitidez Gaussiana..." },
-                { time: 16000, text: "Ajustando resolução para 5000px e injetando 300 DPI..." },
-                { time: 19000, text: "Finalizando otimização da imagem..." }
+                { time: 0, text: "Carregando módulos Lanczos4 via WebAssembly..." },
+                { time: 2000, text: "Analisando estrutura de pixels da imagem..." },
+                { time: 5000, text: "Aplicando algoritmo de interpolação Lanczos4..." },
+                { time: 8000, text: "Executando máscara de nitidez Gaussiana..." },
+                { time: 10000, text: "Ajustando resolução final e injetando 300 DPI..." }
             ];
 
             const origWidth = loadedImage.naturalWidth;
@@ -490,7 +489,7 @@
                     let blurred = new cv.Mat();
                     let ksize = new cv.Size(3, 3);
                     cv.GaussianBlur(resized, blurred, ksize, 0, 0, cv.BORDER_DEFAULT);
-                    cv.addWeighted(resized, 1.5, blurred, -0.5, 0, dst);
+                    cv.addWeighted(resized, 1.4, blurred, -0.4, 0, dst);
 
                     outputCanvas.width = projectedWidth;
                     outputCanvas.height = projectedHeight;
@@ -585,14 +584,6 @@
             }
         });
 
-        function copyPixCode() {
-            navigator.clipboard.writeText(pixCode).then(() => {
-                showToast("Chave Pix copiada para a área de transferência!");
-            }).catch(() => {
-                showToast("Erro ao copiar. Tente selecionar o código manualmente.", true);
-            });
-        }
-
         function downloadImage() {
             outputCanvas.toBlob((blob) => {
                 const reader = new FileReader();
@@ -605,7 +596,7 @@
                     const url = URL.createObjectURL(finalBlob);
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = 'foto_ampliada_5000px_300dpi.png';
+                    link.download = 'arte_ampliada_5000px_300dpi.png';
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
