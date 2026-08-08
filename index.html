@@ -218,10 +218,10 @@
                     </div>
                 </div>
 
-                <!-- Alerta de Memória (Exibido dinamicamente se a imagem for gigante) -->
+                <!-- Alerta de Memória -->
                 <div id="memoryWarning" class="hidden max-w-lg mx-auto p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs text-left flex items-start space-x-2.5">
                     <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5"></i>
-                    <span><strong>Atenção:</strong> A resolução projetada ultrapassa 8000px. O processamento em 16x exige bastante memória RAM do seu navegador.</span>
+                    <span><strong>Atenção:</strong> A resolução projetada ultrapassa 8000px. O processamento em 16x exige bastante memória RAM do seu computador.</span>
                 </div>
 
                 <!-- Anúncio 2: Pré-processamento (Iframe 728x90) -->
@@ -411,6 +411,7 @@
         let selectedScale = 2; // Padrão 2x
         let projectedWidth = 0;
         let projectedHeight = 0;
+        let currentAfterObjectUrl = null;
 
         dropZone.addEventListener('click', () => fileInput.click());
 
@@ -462,7 +463,6 @@
         function selectScale(scale) {
             selectedScale = scale;
             
-            // Atualiza o visual dos botões
             [2, 4, 8, 16].forEach(s => {
                 const btn = document.getElementById(`scaleBtn${s}`);
                 if (s === scale) {
@@ -485,7 +485,6 @@
             projectedWidth = origWidth * selectedScale;
             projectedHeight = origHeight * selectedScale;
 
-            // Cálculo das dimensões físicas em centímetros (a 300 DPI)
             const origWidthCm = ((origWidth / 300) * 2.54).toFixed(1);
             const origHeightCm = ((origHeight / 300) * 2.54).toFixed(1);
             
@@ -498,7 +497,6 @@
             previewTargetPx.innerText = `${projectedWidth} x ${projectedHeight} px`;
             previewPrintCm.innerText = `~ ${targetWidthCm} x ${targetHeightCm} cm (300 DPI)`;
 
-            // Exibir aviso se a resolução for gigantesca
             if (projectedWidth > 8000 || projectedHeight > 8000) {
                 memoryWarning.classList.remove('hidden');
             } else {
@@ -512,18 +510,17 @@
             processingModal.classList.remove('hidden');
             progressBar.style.width = '0%';
             
-            // Ajusta o tempo do modal baseado no fator de escala escolhido
-            const durationMultiplier = selectedScale === 16 ? 2.5 : selectedScale === 8 ? 1.8 : 1;
-            const totalDuration = 8000 * durationMultiplier;
+            const durationMultiplier = selectedScale === 16 ? 2.2 : selectedScale === 8 ? 1.6 : 1;
+            const totalDuration = 6000 * durationMultiplier;
             const intervalTime = 150;
             let elapsedTime = 0;
 
             const stages = [
                 { time: 0, text: "Carregando módulos Lanczos4 via WebAssembly..." },
-                { time: 2000 * durationMultiplier, text: `Alocando matriz de memória para escala ${selectedScale}x...` },
-                { time: 4500 * durationMultiplier, text: "Aplicando algoritmo de interpolação Lanczos4..." },
-                { time: 6500 * durationMultiplier, text: "Executando máscara de nitidez Gaussiana..." },
-                { time: 7500 * durationMultiplier, text: "Ajustando resolução final e injetando 300 DPI..." }
+                { time: 1500 * durationMultiplier, text: `Alocando matriz de memória para escala ${selectedScale}x...` },
+                { time: 3000 * durationMultiplier, text: "Aplicando algoritmo de interpolação Lanczos4..." },
+                { time: 4500 * durationMultiplier, text: "Executando máscara de nitidez Gaussiana..." },
+                { time: 5500 * durationMultiplier, text: "Ajustando resolução final e injetando 300 DPI..." }
             ];
 
             const origWidth = loadedImage.naturalWidth;
@@ -548,7 +545,7 @@
 
                     outputCanvas.width = projectedWidth;
                     outputCanvas.height = projectedHeight;
-                    cv.imshow(outputCanvas, dst);
+                    cv.imshow('outputCanvas', dst);
 
                     src.delete();
                     resized.delete();
@@ -561,7 +558,17 @@
                 processFallbackCanvas(projectedWidth, projectedHeight);
             }
 
-            afterImg.src = outputCanvas.toDataURL('image/png');
+            // CORREÇÃO CRÍTICA: Uso de Blob para evitar estouro de memória no Slider
+            if (currentAfterObjectUrl) {
+                URL.revokeObjectURL(currentAfterObjectUrl);
+            }
+
+            outputCanvas.toBlob((blob) => {
+                if (blob) {
+                    currentAfterObjectUrl = URL.createObjectURL(blob);
+                    afterImg.src = currentAfterObjectUrl;
+                }
+            }, 'image/png');
 
             const timer = setInterval(() => {
                 elapsedTime += intervalTime;
@@ -604,6 +611,10 @@
         function resetApp() {
             loadedImage = null;
             fileInput.value = '';
+            if (currentAfterObjectUrl) {
+                URL.revokeObjectURL(currentAfterObjectUrl);
+                currentAfterObjectUrl = null;
+            }
             resultSection.classList.add('hidden');
             preProcessSection.classList.add('hidden');
             dropZone.scrollIntoView({ behavior: 'smooth' });
@@ -639,8 +650,13 @@
             }
         });
 
+        // CORREÇÃO CRÍTICA: Download seguro de PNG via Blob + Injeção de 300 DPI
         function downloadImage() {
             outputCanvas.toBlob((blob) => {
+                if (!blob) {
+                    showToast("Erro ao processar imagem para download.", true);
+                    return;
+                }
                 const reader = new FileReader();
                 reader.onloadend = () => {
                     const buffer = reader.result;
