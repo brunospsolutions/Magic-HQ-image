@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magic HQ Image 5000px - Upscale & 300 DPI para Artes de IA e Design</title>
+    <title>Magic HQ Image Multi-Scale - Upscale & 300 DPI para Artes de IA e Design</title>
     
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,6 +36,15 @@
         .glass-card-hover:hover {
             border-color: rgba(99, 102, 241, 0.4);
             box-shadow: 0 0 25px rgba(99, 102, 241, 0.15);
+        }
+        .scale-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .scale-btn.active {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            border-color: #a5b4fc;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+            color: #ffffff;
         }
         .slider-container {
             position: relative;
@@ -108,12 +117,11 @@
                 </div>
                 <div>
                     <h1 class="text-base sm:text-lg font-bold bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent tracking-tight">
-                        Magic HQ Image <span class="text-indigo-400 text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 font-semibold ml-1">5000px</span>
+                        Magic HQ Image <span class="text-indigo-400 text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 font-semibold ml-1">Multi-Scale</span>
                     </h1>
                 </div>
             </div>
             
-            <!-- Badge de Privacidade -->
             <div class="hidden sm:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
                 <i data-lucide="shield-check" class="w-4 h-4"></i>
                 <span>100% Processamento Local (Zero Upload)</span>
@@ -128,23 +136,16 @@
         <div class="text-center mb-8 space-y-3">
             <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-300 text-xs font-semibold mb-2">
                 <i data-lucide="wand-2" class="w-3.5 h-3.5 text-violet-400"></i>
-                <span>Otimizado para Artes de IA, Midjourney, DALL-E e Design Digital</span>
+                <span>Upscale Personalizado: 2x, 4x, 8x e 16x com Interpolação Lanczos4</span>
             </div>
             
             <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
-                Eleve a resolução da sua arte para <span class="bg-gradient-to-r from-indigo-400 via-violet-300 to-cyan-400 bg-clip-text text-transparent">Qualidade de Impressão</span>
+                Amplie suas artes com <span class="bg-gradient-to-r from-indigo-400 via-violet-300 to-cyan-400 bg-clip-text text-transparent">Precisão & 300 DPI</span>
             </h2>
             
             <p class="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-                Aumente suas imagens para até **5000 px** com interpolação Lanczos4 e injeção direta de **300 DPI**. Ideal para posters, quadros e portfólios profissionais.
+                Escolha o fator de ampliação ideal e converta automaticamente a resolução para tamanhos de impressão profissional em centímetros.
             </p>
-
-            <!-- Badges Técnicas -->
-            <div class="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs text-slate-400">
-                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60 font-mono">Lanczos4 Resampling</span>
-                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60 font-mono">WebAssembly Engine</span>
-                <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700/60 font-mono">300 DPI Export</span>
-            </div>
         </div>
 
         <!-- Anúncio 1: Topo (Acima do Upload) -->
@@ -169,33 +170,58 @@
                 
                 <div class="flex flex-wrap items-center justify-center gap-4 text-xs text-slate-400 pt-3 border-t border-slate-800/60 max-w-md mx-auto">
                     <span class="flex items-center"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 mr-1.5"></i> JPG, PNG, WEBP</span>
-                    <span class="flex items-center"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 mr-1.5"></i> Saída PNG 5000px</span>
+                    <span class="flex items-center"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 mr-1.5"></i> Escala 2x até 16x</span>
                     <span class="flex items-center"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 mr-1.5"></i> Preserva Privacidade</span>
                 </div>
             </div>
         </div>
 
-        <!-- Pre-Processing Info & Action Section -->
+        <!-- Pre-Processing Info & Scale Selection Section -->
         <div id="preProcessSection" class="hidden space-y-6 mb-8">
-            <div class="glass-card rounded-3xl p-8 text-center space-y-6 border border-slate-700/60 shadow-2xl">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 text-center space-y-6 border border-slate-700/60 shadow-2xl">
                 <div class="flex items-center justify-center space-x-2 text-indigo-300">
-                    <i data-lucide="file-check" class="w-5 h-5 text-indigo-400"></i>
-                    <h3 class="text-base font-bold text-white">Imagem Pronta para Processamento</h3>
+                    <i data-lucide="sliders" class="w-5 h-5 text-indigo-400"></i>
+                    <h3 class="text-base font-bold text-white">Selecione o Multiplicador de Upscale</h3>
                 </div>
 
-                <!-- Comparativo de Resolução Planejada + Dimensões de Impressão -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto text-sm">
-                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 text-left">
+                <!-- Botões de Seleção de Escala -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl mx-auto">
+                    <button type="button" onclick="selectScale(2)" id="scaleBtn2" class="scale-btn active p-3.5 rounded-2xl border border-slate-700 bg-slate-900/80 font-bold text-slate-300 hover:border-indigo-500 flex flex-col items-center justify-center cursor-pointer">
+                        <span class="text-lg">2x</span>
+                        <span class="text-[10px] opacity-75 font-normal">Rápido / Leve</span>
+                    </button>
+                    <button type="button" onclick="selectScale(4)" id="scaleBtn4" class="scale-btn p-3.5 rounded-2xl border border-slate-700 bg-slate-900/80 font-bold text-slate-300 hover:border-indigo-500 flex flex-col items-center justify-center cursor-pointer">
+                        <span class="text-lg">4x</span>
+                        <span class="text-[10px] opacity-75 font-normal">Recomendado</span>
+                    </button>
+                    <button type="button" onclick="selectScale(8)" id="scaleBtn8" class="scale-btn p-3.5 rounded-2xl border border-slate-700 bg-slate-900/80 font-bold text-slate-300 hover:border-indigo-500 flex flex-col items-center justify-center cursor-pointer">
+                        <span class="text-lg">8x</span>
+                        <span class="text-[10px] opacity-75 font-normal">Alta Definição</span>
+                    </button>
+                    <button type="button" onclick="selectScale(16)" id="scaleBtn16" class="scale-btn p-3.5 rounded-2xl border border-slate-700 bg-slate-900/80 font-bold text-slate-300 hover:border-indigo-500 flex flex-col items-center justify-center relative cursor-pointer">
+                        <span class="text-lg text-amber-300">16x</span>
+                        <span class="text-[10px] opacity-75 font-normal">Ultra Pesado</span>
+                    </button>
+                </div>
+
+                <!-- Quadro Comparativo Calculado Dinamicamente -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto text-sm text-left">
+                    <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
                         <span class="text-slate-400 text-[10px] uppercase font-bold tracking-wider block mb-1">Resolução Original</span>
                         <span id="previewOriginalPx" class="text-base font-extrabold text-slate-200 block">0 x 0 px</span>
-                        <span class="text-[11px] text-slate-500 block mt-0.5">Resolução do arquivo enviado</span>
+                        <span id="previewOriginalCm" class="text-[11px] text-slate-500 block mt-0.5">~ 0 x 0 cm (300 DPI)</span>
                     </div>
-                    <div class="bg-indigo-950/40 p-4 rounded-2xl border border-indigo-500/30 text-left relative overflow-hidden">
-                        <div class="absolute -right-2 -bottom-2 w-16 h-16 bg-indigo-500/10 rounded-full blur-xl"></div>
-                        <span class="text-indigo-300 text-[10px] uppercase font-bold tracking-wider block mb-1">Resolução Projetada</span>
+                    <div class="bg-indigo-950/40 p-4 rounded-2xl border border-indigo-500/30 relative overflow-hidden">
+                        <span class="text-indigo-300 text-[10px] uppercase font-bold tracking-wider block mb-1">Resultado Projetado (<span id="selectedScaleText">2x</span>)</span>
                         <span id="previewTargetPx" class="text-base font-extrabold text-indigo-200 block">0 x 0 px</span>
-                        <span id="previewPrintCm" class="text-[11px] text-emerald-400 font-semibold block mt-0.5">~ 0 x 0 cm em 300 DPI</span>
+                        <span id="previewPrintCm" class="text-[11px] text-emerald-400 font-semibold block mt-0.5">~ 0 x 0 cm (300 DPI)</span>
                     </div>
+                </div>
+
+                <!-- Alerta de Memória (Exibido dinamicamente se a imagem for gigante) -->
+                <div id="memoryWarning" class="hidden max-w-lg mx-auto p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs text-left flex items-start space-x-2.5">
+                    <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5"></i>
+                    <span><strong>Atenção:</strong> A resolução projetada ultrapassa 8000px. O processamento em 16x exige bastante memória RAM do seu navegador.</span>
                 </div>
 
                 <!-- Anúncio 2: Pré-processamento (Iframe 728x90) -->
@@ -216,7 +242,7 @@
                 <!-- Botão de Iniciar Processamento -->
                 <button onclick="processImage()" class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-indigo-500 via-indigo-600 to-violet-600 hover:from-indigo-400 hover:to-violet-500 text-white font-bold rounded-2xl shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition duration-300 flex items-center justify-center space-x-3 text-base mx-auto cursor-pointer">
                     <i data-lucide="sparkles" class="w-5 h-5"></i>
-                    <span>Iniciar Mágica (Upscale HQ)</span>
+                    <span>Iniciar Upscale</span>
                 </button>
             </div>
         </div>
@@ -233,7 +259,7 @@
                     </div>
                     <i data-lucide="arrow-right" class="w-4 h-4 text-indigo-400"></i>
                     <div class="bg-indigo-950/60 p-2.5 rounded-xl border border-indigo-500/30">
-                        <span class="text-indigo-300 block text-[10px] uppercase font-bold">Ampliada (5000px / 300 DPI):</span>
+                        <span class="text-indigo-300 block text-[10px] uppercase font-bold">Ampliada (300 DPI):</span>
                         <span id="targetInfo" class="font-bold text-indigo-200">0 x 0 px</span>
                     </div>
                 </div>
@@ -370,8 +396,11 @@
         const originalInfo = document.getElementById('originalInfo');
         const targetInfo = document.getElementById('targetInfo');
         const previewOriginalPx = document.getElementById('previewOriginalPx');
+        const previewOriginalCm = document.getElementById('previewOriginalCm');
         const previewTargetPx = document.getElementById('previewTargetPx');
         const previewPrintCm = document.getElementById('previewPrintCm');
+        const selectedScaleText = document.getElementById('selectedScaleText');
+        const memoryWarning = document.getElementById('memoryWarning');
 
         const sliderBox = document.getElementById('sliderBox');
         const beforeWrapper = document.getElementById('beforeWrapper');
@@ -379,6 +408,7 @@
 
         let loadedImage = null;
         let isDragging = false;
+        let selectedScale = 2; // Padrão 2x
         let projectedWidth = 0;
         let projectedHeight = 0;
 
@@ -419,38 +449,61 @@
                 img.onload = () => {
                     loadedImage = img;
                     beforeImg.src = e.target.result;
-                    showPreProcessInfo();
+                    calculateTargetDimensions();
+                    preProcessSection.classList.remove('hidden');
+                    resultSection.classList.add('hidden');
+                    preProcessSection.scrollIntoView({ behavior: 'smooth' });
                 };
                 img.src = e.target.result;
             };
             reader.readAsDataURL(file);
         }
 
-        function showPreProcessInfo() {
+        function selectScale(scale) {
+            selectedScale = scale;
+            
+            // Atualiza o visual dos botões
+            [2, 4, 8, 16].forEach(s => {
+                const btn = document.getElementById(`scaleBtn${s}`);
+                if (s === scale) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            selectedScaleText.innerText = `${scale}x`;
+            calculateTargetDimensions();
+        }
+
+        function calculateTargetDimensions() {
+            if (!loadedImage) return;
+
             const origWidth = loadedImage.naturalWidth;
             const origHeight = loadedImage.naturalHeight;
-            const maxDim = 5000;
 
-            if (origWidth >= origHeight) {
-                projectedWidth = maxDim;
-                projectedHeight = Math.round((origHeight / origWidth) * maxDim);
-            } else {
-                projectedHeight = maxDim;
-                projectedWidth = Math.round((origWidth / origHeight) * maxDim);
-            }
+            projectedWidth = origWidth * selectedScale;
+            projectedHeight = origHeight * selectedScale;
 
-            // Cálculo das dimensões físicas em centímetros (300 DPI)
-            const widthCm = ((projectedWidth / 300) * 2.54).toFixed(1);
-            const heightCm = ((projectedHeight / 300) * 2.54).toFixed(1);
+            // Cálculo das dimensões físicas em centímetros (a 300 DPI)
+            const origWidthCm = ((origWidth / 300) * 2.54).toFixed(1);
+            const origHeightCm = ((origHeight / 300) * 2.54).toFixed(1);
+            
+            const targetWidthCm = ((projectedWidth / 300) * 2.54).toFixed(1);
+            const targetHeightCm = ((projectedHeight / 300) * 2.54).toFixed(1);
 
             previewOriginalPx.innerText = `${origWidth} x ${origHeight} px`;
+            previewOriginalCm.innerText = `~ ${origWidthCm} x ${origHeightCm} cm (300 DPI)`;
+
             previewTargetPx.innerText = `${projectedWidth} x ${projectedHeight} px`;
-            previewPrintCm.innerText = `~ ${widthCm} x ${heightCm} cm para impressão (300 DPI)`;
+            previewPrintCm.innerText = `~ ${targetWidthCm} x ${targetHeightCm} cm (300 DPI)`;
 
-            preProcessSection.classList.remove('hidden');
-            resultSection.classList.add('hidden');
-
-            preProcessSection.scrollIntoView({ behavior: 'smooth' });
+            // Exibir aviso se a resolução for gigantesca
+            if (projectedWidth > 8000 || projectedHeight > 8000) {
+                memoryWarning.classList.remove('hidden');
+            } else {
+                memoryWarning.classList.add('hidden');
+            }
         }
 
         function processImage() {
@@ -459,16 +512,18 @@
             processingModal.classList.remove('hidden');
             progressBar.style.width = '0%';
             
-            const totalDuration = 12000; // Otimizado para 12 segundos
+            // Ajusta o tempo do modal baseado no fator de escala escolhido
+            const durationMultiplier = selectedScale === 16 ? 2.5 : selectedScale === 8 ? 1.8 : 1;
+            const totalDuration = 8000 * durationMultiplier;
             const intervalTime = 150;
             let elapsedTime = 0;
 
             const stages = [
                 { time: 0, text: "Carregando módulos Lanczos4 via WebAssembly..." },
-                { time: 2000, text: "Analisando estrutura de pixels da imagem..." },
-                { time: 5000, text: "Aplicando algoritmo de interpolação Lanczos4..." },
-                { time: 8000, text: "Executando máscara de nitidez Gaussiana..." },
-                { time: 10000, text: "Ajustando resolução final e injetando 300 DPI..." }
+                { time: 2000 * durationMultiplier, text: `Alocando matriz de memória para escala ${selectedScale}x...` },
+                { time: 4500 * durationMultiplier, text: "Aplicando algoritmo de interpolação Lanczos4..." },
+                { time: 6500 * durationMultiplier, text: "Executando máscara de nitidez Gaussiana..." },
+                { time: 7500 * durationMultiplier, text: "Ajustando resolução final e injetando 300 DPI..." }
             ];
 
             const origWidth = loadedImage.naturalWidth;
@@ -532,7 +587,7 @@
 
                     updateSliderPosition(50);
                     document.getElementById('comparisonTarget').scrollIntoView({ behavior: 'smooth' });
-                    showToast("Imagem otimizada com sucesso!");
+                    showToast(`Upscale de ${selectedScale}x concluído com sucesso!`);
                 }
             }, intervalTime);
         }
@@ -596,7 +651,7 @@
                     const url = URL.createObjectURL(finalBlob);
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = 'arte_ampliada_5000px_300dpi.png';
+                    link.download = `arte_upscale_${selectedScale}x_300dpi.png`;
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
